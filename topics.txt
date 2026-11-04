@@ -1,0 +1,40 @@
+Segment tree 
+    ->Lazy update
+    ->Persistent segment tree
+    ->Divide Manipulation
+
+Graphs
+    ->State Dijkstra
+    ->Kosaraju=>DAG
+    ->Bipartite Graph related shit
+
+Bit Manipulation
+    ->Subset
+    ->XOR Trie
+    ->XOR & OR (Template tricks)
+
+Game Theory-> 5 to 6 questions
+
+Dynamic Programming
+    ->All CSES questions
+    ->Divide and Conquer
+    ->Convex Hull Trick
+
+Geometry 
+    ->Convex Hull
+
+Trees
+    ->HLD
+
+String
+    ->KMP
+    ->Manachher
+    ->LSP
+    ->LCP
+    ->Rolling Hash (Must)
+    
+Maths
+    ->GCD
+    ->Binomial Power
+    ->Ncr factorial use kaise krte 
+    ->How to use basic maths that is probability combinatrics, and Manipulation in dsa/cp
