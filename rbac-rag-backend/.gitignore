@@ -80,6 +80,7 @@ logs/
 # =========================
 storage/raw_uploads/
 storage/annotated_pdfs/
+storage/retrieval_logs/
 uploads/
 tmp/
 temp/

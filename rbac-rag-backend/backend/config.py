@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     AUTO_APPROVE_CONFIDENCE_THRESHOLD: float = 0.90
     RAW_UPLOAD_DIR: str = "storage/raw_uploads"
     ANNOTATED_PDF_DIR: str = "storage/annotated_pdfs"
+    RETRIEVAL_LOG_ENABLED: bool = True
+    RETRIEVAL_LOG_DIR: str = "storage/retrieval_logs"
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

@@ -1,3 +1,4 @@
+import logging
 import time
 from typing import Any, Literal
 
@@ -8,12 +9,15 @@ from backend.auth.dependencies import get_current_user, require_admin
 from backend.generation.audit_logger import get_recent_audit_logs, write_audit_log
 from backend.generation.citation_verifier import verify_and_enrich_citations
 from backend.generation.llm_client import generate_grounded_answer
+from backend.generation.retrieval_md_logger import log_query_retrieval
 from backend.models.auth_schemas import AuthenticatedUser
+from backend.retrieval.chunk_lookup import fetch_chunks_by_ids
 from backend.retrieval.guardrails import run_input_guardrails
 from backend.retrieval.hybrid_search import RetrievalMode, retrieve_for_user
 from backend.retrieval.role_cache import get_cached_response, set_cached_response
 
 router = APIRouter(prefix="/api/v1/chat", tags=["Chat & Audit"])
+logger = logging.getLogger(__name__)
 
 
 class ChatQueryRequest(BaseModel):
@@ -53,6 +57,15 @@ def chat_query_endpoint(
             retrieved_chunk_ids=[],
             latency_ms=latency_ms,
         )
+        log_query_retrieval(
+            user_id=user.user_id,
+            user_role=user.role,
+            query=clean_query,
+            mode=payload.mode,
+            chunks=[],
+            cache_hit=False,
+            guardrail_status=guard["status"],
+        )
         return {
             "answer": guard["reason"],
             "role_used": user.role,
@@ -78,6 +91,20 @@ def chat_query_endpoint(
                 retrieved_chunk_ids=cached_chunk_ids,
                 latency_ms=latency_ms,
             )
+            try:
+                cached_chunks = fetch_chunks_by_ids(user.role, cached_chunk_ids)
+            except Exception:
+                logger.exception("Could not reload cached chunks for retrieval logging")
+                cached_chunks = []
+            log_query_retrieval(
+                user_id=user.user_id,
+                user_role=user.role,
+                query=clean_query,
+                mode=payload.mode,
+                chunks=cached_chunks,
+                cache_hit=True,
+                guardrail_status="passed",
+            )
             response_copy = dict(cached)
             response_copy["cache_hit"] = True
             response_copy["latency_ms"] = latency_ms
@@ -91,6 +118,16 @@ def chat_query_endpoint(
         top_k=payload.top_k,
     )
     retrieved_chunk_ids = [str(c["chunk_id"]) for c in top_chunks]
+
+    log_query_retrieval(
+        user_id=user.user_id,
+        user_role=user.role,
+        query=clean_query,
+        mode=payload.mode,
+        chunks=top_chunks,
+        cache_hit=False,
+        guardrail_status="passed",
+    )
 
     # Stage 6: Grounded Generation & Post-Generation Citation Verification
     gen = generate_grounded_answer(
