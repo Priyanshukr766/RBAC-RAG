@@ -78,7 +78,7 @@ def chat_query_endpoint(
 
     # Stage 3: Role-Scoped Semantic Cache Lookup (only for default hybrid_rerank mode)
     if payload.mode == "hybrid_rerank":
-        cached = get_cached_response(user.role, clean_query)
+        cached = get_cached_response(user.role, clean_query) #check redis
         if cached is not None:
             latency_ms = round((time.perf_counter() - t0) * 1000.0, 2)
             cached_chunk_ids = [str(cid) for cid in cached.get("retrieved_chunk_ids", [])]

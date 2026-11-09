@@ -1,0 +1,362 @@
+[
+  {
+    "question_id": "HR-Q01",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Neha Sharma (EMP-1001)?",
+    "ground_truth_chunk_id": "07b79615-84c0-45c5-ac67-7ca367f68977"
+  },
+  {
+    "question_id": "HR-Q02",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Vikram Patel (EMP-1002)?",
+    "ground_truth_chunk_id": "9397da49-d64d-42ef-a820-7797a2604b61"
+  },
+  {
+    "question_id": "HR-Q03",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Rohan Verma (EMP-1003)?",
+    "ground_truth_chunk_id": "d649dba0-bd19-4a32-90e2-c8c17730a2b0"
+  },
+  {
+    "question_id": "HR-Q04",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Ananya Iyer (EMP-1004)?",
+    "ground_truth_chunk_id": "6339336b-bf1e-4635-ab00-a5f8d140154a"
+  },
+  {
+    "question_id": "HR-Q05",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Karan Malhotra (EMP-1005)?",
+    "ground_truth_chunk_id": "24b68647-0f97-4a51-b443-c7d2eb594eca"
+  },
+  {
+    "question_id": "HR-Q06",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Meera Nair (EMP-1006)?",
+    "ground_truth_chunk_id": "f253f7df-665d-44ff-a6fb-a0372a792aff"
+  },
+  {
+    "question_id": "HR-Q07",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Siddharth Rao (EMP-1007)?",
+    "ground_truth_chunk_id": "65a9a5cf-62a1-4a36-b404-bc421df86ad0"
+  },
+  {
+    "question_id": "HR-Q08",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Pooja Desai (EMP-1008)?",
+    "ground_truth_chunk_id": "cede68f9-8309-4af1-8bbc-bc02f22ba268"
+  },
+  {
+    "question_id": "HR-Q09",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Aditya Kulkarni (EMP-1009)?",
+    "ground_truth_chunk_id": "498c624e-c914-4cf3-88c5-4505617cee4d"
+  },
+  {
+    "question_id": "HR-Q10",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Divya Menon (EMP-1010)?",
+    "ground_truth_chunk_id": "218998df-4994-4424-8144-3d1fc1b4d6c1"
+  },
+  {
+    "question_id": "HR-Q11",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Kabir Singhania (EMP-1011)?",
+    "ground_truth_chunk_id": "2632368e-3ecf-4d75-8058-095d6c9b7052"
+  },
+  {
+    "question_id": "HR-Q12",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Tanvi Bhatia (EMP-1012)?",
+    "ground_truth_chunk_id": "7c3dccec-4e7b-496a-9707-128f505fc0c1"
+  },
+  {
+    "question_id": "HR-Q13",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Harshvardhan Joshi (EMP-1013)?",
+    "ground_truth_chunk_id": "3cd1b3c3-7903-4c1f-9736-17f0c6fd058b"
+  },
+  {
+    "question_id": "HR-Q14",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Sneha Chatterjee (EMP-1014)?",
+    "ground_truth_chunk_id": "a25ddca7-f136-45a4-9e4c-eaaf6306d02e"
+  },
+  {
+    "question_id": "HR-Q15",
+    "role": "hr",
+    "question": "What is the Base_Salary, Retention_Bonus, and HR_Status for Pranav Gupta (EMP-1015)?",
+    "ground_truth_chunk_id": "f9c963b9-79f9-4466-b5a9-715760c8ec89"
+  },
+  {
+    "question_id": "ENG-Q01",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_CODE_0x884F (Kafka Consumer Stall)?",
+    "ground_truth_chunk_id": "402d546f-a80d-47cc-94b8-ac7ac0c6312d"
+  },
+  {
+    "question_id": "ENG-Q02",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_KAFKA_99 (Broker Leader Election Timeout)?",
+    "ground_truth_chunk_id": "8c166b4d-992e-40a1-8a3d-74c8a3a8edab"
+  },
+  {
+    "question_id": "ENG-Q03",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_PG_LOCK_402 (PostgreSQL Deadlock on Ledger Table)?",
+    "ground_truth_chunk_id": "01c7c576-3fa0-488e-9571-38c642e6ea97"
+  },
+  {
+    "question_id": "ENG-Q04",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_REDIS_OOM_77 (Redis Cluster Eviction Spike)?",
+    "ground_truth_chunk_id": "67f35884-bebe-48ff-9f7c-a904f9caec0f"
+  },
+  {
+    "question_id": "ENG-Q05",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_GRPC_DEADLINE_14 (Auth Microservice gRPC Timeout)?",
+    "ground_truth_chunk_id": "6fe4c5bb-eae4-43f0-b068-22b5b50278a6"
+  },
+  {
+    "question_id": "ENG-Q06",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_HNSW_SCAN_301 (pgvector Iterative Scan Fallback)?",
+    "ground_truth_chunk_id": "f319c6d1-04b4-4acd-8663-d5021ae7a160"
+  },
+  {
+    "question_id": "ENG-Q07",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_KUBE_CNI_509 (Calico BGP Peer Down)?",
+    "ground_truth_chunk_id": "04a260c5-f2fd-4186-bae8-880024c617ba"
+  },
+  {
+    "question_id": "ENG-Q08",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_S3_KMS_812 (AWS KMS Envelope Decryption Failure)?",
+    "ground_truth_chunk_id": "2356a7cf-fad5-441e-b060-2c97a9d8f853"
+  },
+  {
+    "question_id": "ENG-Q09",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_DOCLING_OCR_604 (PDF Layout Parser Bounding Box Overflow)?",
+    "ground_truth_chunk_id": "1bcfbfb3-fc1d-4214-ad90-cabe389899e7"
+  },
+  {
+    "question_id": "ENG-Q10",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_JWT_CLOCK_208 (NTP Clock Skew on Auth Nodes)?",
+    "ground_truth_chunk_id": "7169c869-ba85-499d-8458-ea2bda1f238f"
+  },
+  {
+    "question_id": "ENG-Q11",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_CELERY_ACK_915 (Async Embedding Worker Lost Task)?",
+    "ground_truth_chunk_id": "f4c199fd-b119-4fc2-9647-69932e713f00"
+  },
+  {
+    "question_id": "ENG-Q12",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_NGINX_502_UPSTREAM (FastAPI Uvicorn Worker Exhaustion)?",
+    "ground_truth_chunk_id": "69ab55dc-413a-4d33-81be-b3a200f30018"
+  },
+  {
+    "question_id": "ENG-Q13",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_VAULT_SEALED_001 (HashiCorp Vault Auto-Unseal Failure)?",
+    "ground_truth_chunk_id": "ca36c036-8403-4d74-b209-f99a5086bc12"
+  },
+  {
+    "question_id": "ENG-Q14",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_PROM_SCRAPE_419 (Prometheus Cardinality Explosion)?",
+    "ground_truth_chunk_id": "3ec88a6b-88ad-47da-b33c-552e208b86f0"
+  },
+  {
+    "question_id": "ENG-Q15",
+    "role": "engineering",
+    "question": "How do we resolve production error code ERR_BGP_ANYCAST_770 (Cloudflare Magic Transit Flap)?",
+    "ground_truth_chunk_id": "3ebe3e6b-ccf4-4a21-b583-efbdcf16f585"
+  },
+  {
+    "question_id": "FIN-Q01",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-Q3-BURN), what are the figures for Q3 Cloud Infrastructure Burn Rate?",
+    "ground_truth_chunk_id": "c8662e97-5a8d-4cf7-8116-11198185578e"
+  },
+  {
+    "question_id": "FIN-Q02",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-EBITDA-26), what are the figures for Q3 Consolidated EBITDA Margin?",
+    "ground_truth_chunk_id": "9119ad03-952f-41bf-af81-40e06d047374"
+  },
+  {
+    "question_id": "FIN-Q03",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-MA-PROJECT-LOTUS), what are the figures for Confidential M&A Target Project Lotus?",
+    "ground_truth_chunk_id": "965ae0f5-730d-4a41-b40a-64509667d34c"
+  },
+  {
+    "question_id": "FIN-Q04",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-RUNWAY-CASH), what are the figures for Treasury Cash Reserves & Runway?",
+    "ground_truth_chunk_id": "7e6c7c0f-4f69-4b8d-b03e-8953aa6bb980"
+  },
+  {
+    "question_id": "FIN-Q05",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-ARR-CHURN), what are the figures for Enterprise Net Dollar Retention?",
+    "ground_truth_chunk_id": "88798058-fcb1-4f67-a826-7dc0d8333a27"
+  },
+  {
+    "question_id": "FIN-Q06",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-VENDOR-SNOWFLAKE), what are the figures for Snowflake Data Warehouse Contract Renewal?",
+    "ground_truth_chunk_id": "cfe4ec1c-b2dd-484a-8e87-d8608fd0e6c0"
+  },
+  {
+    "question_id": "FIN-Q07",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-TAX-PROVISION), what are the figures for FY26 Corporate Tax & GST Audit Reserve?",
+    "ground_truth_chunk_id": "4ced3cbc-0f2d-4ee1-9bbc-0a6a61c0e9c3"
+  },
+  {
+    "question_id": "FIN-Q08",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-SERIES-C-DEBT), what are the figures for Venture Debt Covenant Ratio?",
+    "ground_truth_chunk_id": "678d05e4-a0a5-49da-9220-270e31c0ca39"
+  },
+  {
+    "question_id": "FIN-Q09",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-SALES-COMM), what are the figures for Q3 Enterprise Sales Commission Accrual?",
+    "ground_truth_chunk_id": "fe861300-94cd-45c8-b458-0b7bfc4ae36f"
+  },
+  {
+    "question_id": "FIN-Q10",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-FX-HEDGING), what are the figures for USD-INR Forward Hedging Position?",
+    "ground_truth_chunk_id": "f3098e58-6e91-49d8-a76d-0150037bdb95"
+  },
+  {
+    "question_id": "FIN-Q11",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-CAPEX-LAB), what are the figures for Bengaluru Hardware Lab CapEx?",
+    "ground_truth_chunk_id": "f585aad2-b0d9-4f6c-9cef-03dd208c5f0d"
+  },
+  {
+    "question_id": "FIN-Q12",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-BAD-DEBT), what are the figures for Accounts Receivable Allowance for Doubtful Accounts?",
+    "ground_truth_chunk_id": "3c379af5-32c5-4925-9ec9-97a8e081be11"
+  },
+  {
+    "question_id": "FIN-Q13",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-BOARD-AUDIT), what are the figures for External Statutory Auditor Fee Schedule?",
+    "ground_truth_chunk_id": "bb5e72ba-46db-4bca-aef8-46765f604f46"
+  },
+  {
+    "question_id": "FIN-Q14",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-GROSS-MARGIN), what are the figures for SaaS Subscription Gross Margin?",
+    "ground_truth_chunk_id": "30887b02-9d63-4b8f-a134-3ccc4f946a1b"
+  },
+  {
+    "question_id": "FIN-Q15",
+    "role": "finance",
+    "question": "According to the Q3 Board Financial Report (FIN-IPO-READINESS), what are the figures for FY28 IPO Readiness Advisory Retainer?",
+    "ground_truth_chunk_id": "8ea8591a-eecf-4ac1-95d0-9f02dcf3389f"
+  },
+  {
+    "question_id": "ALL-Q01",
+    "role": "all_employees",
+    "question": "What does company policy POL-LEAVE-01 state regarding Annual Paid Leave & Sick Leave Entitlement?",
+    "ground_truth_chunk_id": "1d058cbd-49ea-4e20-b4f6-7a4e6fee93a8"
+  },
+  {
+    "question_id": "ALL-Q02",
+    "role": "all_employees",
+    "question": "What does company policy POL-WFH-02 state regarding Hybrid Work from Home Policy?",
+    "ground_truth_chunk_id": "b1a5f245-da21-4327-b564-452207232ea0"
+  },
+  {
+    "question_id": "ALL-Q03",
+    "role": "all_employees",
+    "question": "What does company policy POL-TRAVEL-03 state regarding Domestic Flight & Hotel Reimbursement Limits?",
+    "ground_truth_chunk_id": "c2bd6bf9-703e-4a73-92a9-1cf2d3a4c9b9"
+  },
+  {
+    "question_id": "ALL-Q04",
+    "role": "all_employees",
+    "question": "What does company policy POL-PARENTAL-04 state regarding Maternity & Paternity Leave Policy?",
+    "ground_truth_chunk_id": "3e9d98c8-4b30-4d24-864c-e11da9e9f876"
+  },
+  {
+    "question_id": "ALL-Q05",
+    "role": "all_employees",
+    "question": "What does company policy POL-LEARNING-05 state regarding Annual Learning & Certification Stipend?",
+    "ground_truth_chunk_id": "15bfb3d6-0ce8-4e13-b43a-a7b147d47f54"
+  },
+  {
+    "question_id": "ALL-Q06",
+    "role": "all_employees",
+    "question": "What does company policy POL-HOME-OFFICE-06 state regarding Ergonomic Home Office Setup Allowance?",
+    "ground_truth_chunk_id": "8294b17c-c9b7-4b47-8c3d-8ac31e7a1edb"
+  },
+  {
+    "question_id": "ALL-Q07",
+    "role": "all_employees",
+    "question": "What does company policy POL-MEAL-07 state regarding Late-Night Dinner & Cab Reimbursement?",
+    "ground_truth_chunk_id": "0cfe49e5-2daf-4cd0-848f-2bea8a4dd827"
+  },
+  {
+    "question_id": "ALL-Q08",
+    "role": "all_employees",
+    "question": "What does company policy POL-REFERRAL-08 state regarding Employee Referral Bonus Program?",
+    "ground_truth_chunk_id": "a8004f73-329f-453e-84c2-e6bab4559c38"
+  },
+  {
+    "question_id": "ALL-Q09",
+    "role": "all_employees",
+    "question": "What does company policy POL-INSURANCE-09 state regarding Group Medical & Parental Health Insurance?",
+    "ground_truth_chunk_id": "22daeb0f-9b03-4a11-9e49-37be364364e7"
+  },
+  {
+    "question_id": "ALL-Q10",
+    "role": "all_employees",
+    "question": "What does company policy POL-PASSWORD-10 state regarding Hardware Security & YubiKey MFA Mandate?",
+    "ground_truth_chunk_id": "cad68179-eb66-4ebf-9047-eb074597ec9d"
+  },
+  {
+    "question_id": "ALL-Q11",
+    "role": "all_employees",
+    "question": "What does company policy POL-BEREAVEMENT-11 state regarding Bereavement & Compassionate Leave?",
+    "ground_truth_chunk_id": "64803d21-f50d-4aaf-b24e-538217faa488"
+  },
+  {
+    "question_id": "ALL-Q12",
+    "role": "all_employees",
+    "question": "What does company policy POL-SABBATICAL-12 state regarding Five-Year Tenure Sabbatical Program?",
+    "ground_truth_chunk_id": "bd8ec310-4070-4801-acd4-e0c5b93b40ea"
+  },
+  {
+    "question_id": "ALL-Q13",
+    "role": "all_employees",
+    "question": "What does company policy POL-INTERNET-13 state regarding Monthly Broadband & Mobile Reimbursement?",
+    "ground_truth_chunk_id": "4af1586a-e366-4745-a219-58d46dc25d77"
+  },
+  {
+    "question_id": "ALL-Q14",
+    "role": "all_employees",
+    "question": "What does company policy POL-GYM-14 state regarding Health Club & Fitness Wellness Benefit?",
+    "ground_truth_chunk_id": "f9dea7bf-8cce-43f7-b445-ad090059cced"
+  },
+  {
+    "question_id": "ALL-Q15",
+    "role": "all_employees",
+    "question": "What does company policy POL-NOTICE-15 state regarding Standard Notice Period & Buyout Rules?",
+    "ground_truth_chunk_id": "c6c06ad9-9b31-4c96-aa30-675598f58aaa"
+  }
+]
