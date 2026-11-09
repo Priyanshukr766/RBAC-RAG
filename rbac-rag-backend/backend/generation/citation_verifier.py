@@ -1,4 +1,25 @@
+import re
 from typing import Any
+
+_SNIPPET_INJECTION_PATTERNS = [
+    r"ignore\s+(all\s+|previous\s+|prior\s+)?(instructions|rules|prompts)",
+    r"system\s+override",
+    r"output\s+.*salary",
+    r"reveal\s+.*secret",
+]
+
+
+def _sanitize_snippet_text(text: str) -> str:
+    """
+    Removes embedded indirect prompt-injection sentences from citation snippets
+    so adversarial instructions inside documents are never echoed in UI metadata.
+    """
+    sentences = re.split(r"(?<=[.!?])\s+|\n+", text)
+    clean_sentences = [
+        s for s in sentences
+        if not any(re.search(pat, s, flags=re.IGNORECASE) for pat in _SNIPPET_INJECTION_PATTERNS)
+    ]
+    return " ".join(clean_sentences).strip()
 
 
 def verify_and_enrich_citations(
@@ -28,7 +49,7 @@ def verify_and_enrich_citations(
 
         seen_ids.add(cid)
         chunk = allowed_map[cid]
-        raw_content = str(chunk.get("content", ""))
+        raw_content = _sanitize_snippet_text(str(chunk.get("content", "")))
         snippet = raw_content[:200] + "..." if len(raw_content) > 200 else raw_content + "..."
         doc_id = str(chunk.get("doc_id", ""))
 

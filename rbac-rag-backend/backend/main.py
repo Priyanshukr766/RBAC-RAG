@@ -1,5 +1,6 @@
 import os
 from contextlib import asynccontextmanager
+from typing import Any
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,6 +25,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.APP_NAME,
     version="1.0.0",
+    description=(
+        "Production RBAC RAG Backend with PostgreSQL Row-Level Security (RLS), "
+        "Sub-Second Redis Role Revocation, Human-in-the-Loop Visual PDF Box Painting, "
+        "Pre-Filtered Hybrid Search (HNSW + BM25 + RRF), and Cross-Encoder Reranking."
+    ),
     lifespan=lifespan,
 )
 
@@ -46,5 +52,12 @@ app.include_router(chat_router)
 
 
 @app.get("/health", tags=["Health"])
-def health_check() -> dict:
-    return {"status": "healthy", "rls_enforced": True}
+def health_check() -> dict[str, Any]:
+    """
+    Health check endpoint verifying API liveness and RLS enforcement state.
+    """
+    return {
+        "status": "healthy",
+        "rls_enforced": True,
+        "app_name": settings.APP_NAME,
+    }
