@@ -1,17 +1,26 @@
-from fastapi import Depends, HTTPException, status
+from typing import Optional
+from fastapi import Depends, HTTPException, Query, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from backend.auth.jwt_handler import decode_jwt_token
 from backend.auth.live_role_guard import get_live_user_state
 from backend.models.auth_schemas import AuthenticatedUser
 
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 
 def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(security),
+    token: Optional[str] = Query(default=None),
+    credentials: Optional[HTTPAuthorizationCredentials] = Depends(security),
 ) -> AuthenticatedUser:
-    payload = decode_jwt_token(credentials.credentials)
+    jwt_str = credentials.credentials if credentials else token
+    if not jwt_str:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated",
+        )
+
+    payload = decode_jwt_token(jwt_str)
     user_id = int(payload["user_id"])
     email = str(payload["email"])
 

@@ -4,14 +4,17 @@ import json
 
 from typing import Literal, Optional, List
 from pydantic import BaseModel
-from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile, Query, status
 from fastapi.responses import FileResponse
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 from backend.config import get_settings
 
 from backend.db.session import get_admin_cursor
 
-from backend.auth.dependencies import require_admin
+from backend.auth.dependencies import require_admin, get_current_user
+from backend.auth.jwt_handler import decode_jwt_token
+from backend.auth.live_role_guard import get_live_user_state
 
 from backend.models.auth_schemas import AuthenticatedUser, AllowedRole
 from backend.models.ingestion_schemas import ChunkRecord
@@ -37,6 +40,7 @@ from backend.ingestion.staging_store import (
 )
 
 router = APIRouter(prefix="/api/v1/ingest", tags=["Ingestion & HITL Review"])
+oauth2_optional_scheme = HTTPBearer(auto_error=False)
 
 VALID_ROLES = {"admin", "hr", "finance", "engineering", "intern", "all_employees"}
 
@@ -178,7 +182,7 @@ def list_documents(admin_user: AuthenticatedUser = Depends(require_admin)):
     with get_admin_cursor() as cur:
         cur.execute("""
             SELECT doc_id::text, filename, file_type, upload_mode, status,
-                   annotated_pdf_path, created_at
+                   annotated_pdf_path, created_at, raw_file_path
             FROM documents
             ORDER BY created_at DESC;
             """)
@@ -187,6 +191,7 @@ def list_documents(admin_user: AuthenticatedUser = Depends(require_admin)):
         for r in rows:
             if isinstance(r, dict):
                 doc_id = str(r["doc_id"])
+                has_pdf = bool(r["annotated_pdf_path"] or (r.get("raw_file_path") and str(r["filename"]).lower().endswith(".pdf")))
                 docs.append(
                     {
                         "doc_id": doc_id,
@@ -196,7 +201,7 @@ def list_documents(admin_user: AuthenticatedUser = Depends(require_admin)):
                         "status": r["status"],
                         "annotated_pdf_url": (
                             f"/api/v1/ingest/documents/{doc_id}/annotated-pdf"
-                            if r["annotated_pdf_path"]
+                            if has_pdf
                             else None
                         ),
                         "created_at": (
@@ -206,6 +211,7 @@ def list_documents(admin_user: AuthenticatedUser = Depends(require_admin)):
                 )
             else:
                 doc_id = str(r[0])
+                has_pdf = bool(r[5] or (len(r) > 7 and r[7] and str(r[1]).lower().endswith(".pdf")))
                 docs.append(
                     {
                         "doc_id": doc_id,
@@ -215,7 +221,7 @@ def list_documents(admin_user: AuthenticatedUser = Depends(require_admin)):
                         "status": r[4],
                         "annotated_pdf_url": (
                             f"/api/v1/ingest/documents/{doc_id}/annotated-pdf"
-                            if r[5]
+                            if has_pdf
                             else None
                         ),
                         "created_at": r[6].isoformat() if r[6] else None,
@@ -350,12 +356,13 @@ def update_document_blocks_and_repaint(
 @router.get("/documents/{doc_id}/annotated-pdf")
 def stream_annotated_pdf(
     doc_id: str,
-    admin_user: AuthenticatedUser = Depends(require_admin),
+    user: AuthenticatedUser = Depends(get_current_user),
 ):
     """
-    Streams the colored bounding-box annotated PDF file so the React Admin Review Inbox(react will use this api)
+    Streams the colored bounding-box annotated PDF file so the React Admin Review Inbox
     (or PDF citation viewer) can render it inside an <iframe> or PDF.js canvas.
     """
+
     with get_admin_cursor() as cur:
         cur.execute(
             """
@@ -396,6 +403,10 @@ def stream_annotated_pdf(
         path=annotated_pdf_path,
         media_type="application/pdf",
         filename=f"annotated_{filename}",
+        content_disposition_type="inline",
+        headers={
+            "Content-Disposition": f'inline; filename="annotated_{filename}"',
+        },
     )
     
     

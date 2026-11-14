@@ -1,0 +1,97 @@
+{
+  "total_queries": 165,
+  "total_leaks": 0,
+  "isolation_rate": 100.0,
+  "matrix": [
+    {
+      "requester_role": "engineering",
+      "target_domain": "finance",
+      "queries_executed": 20,
+      "chunks_inspected": 100,
+      "unauthorized_leaks": 0,
+      "target_chunk_leaks": 0,
+      "isolation_rate_pct": 100.0,
+      "avg_query_ms": 2056.3
+    },
+    {
+      "requester_role": "engineering",
+      "target_domain": "hr",
+      "queries_executed": 15,
+      "chunks_inspected": 75,
+      "unauthorized_leaks": 0,
+      "target_chunk_leaks": 0,
+      "isolation_rate_pct": 100.0,
+      "avg_query_ms": 2048.14
+    },
+    {
+      "requester_role": "finance",
+      "target_domain": "engineering",
+      "queries_executed": 20,
+      "chunks_inspected": 100,
+      "unauthorized_leaks": 0,
+      "target_chunk_leaks": 0,
+      "isolation_rate_pct": 100.0,
+      "avg_query_ms": 2028.12
+    },
+    {
+      "requester_role": "finance",
+      "target_domain": "hr",
+      "queries_executed": 15,
+      "chunks_inspected": 75,
+      "unauthorized_leaks": 0,
+      "target_chunk_leaks": 0,
+      "isolation_rate_pct": 100.0,
+      "avg_query_ms": 2079.18
+    },
+    {
+      "requester_role": "hr",
+      "target_domain": "engineering",
+      "queries_executed": 20,
+      "chunks_inspected": 100,
+      "unauthorized_leaks": 0,
+      "target_chunk_leaks": 0,
+      "isolation_rate_pct": 100.0,
+      "avg_query_ms": 2159.84
+    },
+    {
+      "requester_role": "hr",
+      "target_domain": "finance",
+      "queries_executed": 20,
+      "chunks_inspected": 100,
+      "unauthorized_leaks": 0,
+      "target_chunk_leaks": 0,
+      "isolation_rate_pct": 100.0,
+      "avg_query_ms": 2146.43
+    },
+    {
+      "requester_role": "all_employees",
+      "target_domain": "engineering",
+      "queries_executed": 20,
+      "chunks_inspected": 100,
+      "unauthorized_leaks": 0,
+      "target_chunk_leaks": 0,
+      "isolation_rate_pct": 100.0,
+      "avg_query_ms": 1734.46
+    },
+    {
+      "requester_role": "all_employees",
+      "target_domain": "finance",
+      "queries_executed": 20,
+      "chunks_inspected": 100,
+      "unauthorized_leaks": 0,
+      "target_chunk_leaks": 0,
+      "isolation_rate_pct": 100.0,
+      "avg_query_ms": 1809.07
+    },
+    {
+      "requester_role": "all_employees",
+      "target_domain": "hr",
+      "queries_executed": 15,
+      "chunks_inspected": 75,
+      "unauthorized_leaks": 0,
+      "target_chunk_leaks": 0,
+      "isolation_rate_pct": 100.0,
+      "avg_query_ms": 1754.37
+    }
+  ]
+}

@@ -16,7 +16,6 @@ from evaluation.generate_synthetic_data import (
     generate_all_synthetic_data,
 )
 
-
 def _ensure_synthetic_corpus_and_prompts(prompts_path: str) -> list[dict[str, Any]]:
     with get_admin_cursor() as cur:
         cur.execute(

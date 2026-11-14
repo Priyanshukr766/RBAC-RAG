@@ -1,0 +1,26 @@
+{
+  "bm25_only": {
+    "recall_at_5": 0.8857,
+    "mrr_at_5": 0.7469,
+    "p95_latency_ms": 35.68,
+    "rls_violations": 0.0
+  },
+  "vector_only": {
+    "recall_at_5": 0.8143,
+    "mrr_at_5": 0.6433,
+    "p95_latency_ms": 95.74,
+    "rls_violations": 0.0
+  },
+  "hybrid_rrf": {
+    "recall_at_5": 0.8714,
+    "mrr_at_5": 0.7024,
+    "p95_latency_ms": 127.29,
+    "rls_violations": 0.0
+  },
+  "hybrid_rerank": {
+    "recall_at_5": 0.9286,
+    "mrr_at_5": 0.7686,
+    "p95_latency_ms": 2215.52,
+    "rls_violations": 0.0
+  }
+}

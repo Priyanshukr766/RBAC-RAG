@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface text-on-surface antialiased;
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* Focus states adhering to Design Guidelines (3px primary blue glow) */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(38, 139, 255, 0.4);
+  }
+}
+
+@layer components {
+  /* Action buttons with modern restrained radius */
+  .btn-primary {
+    @apply inline-flex items-center justify-center font-medium text-sm text-white bg-primary hover:bg-[#1a73e8] active:bg-[#1558b0] rounded-lg px-5 py-2.5 transition-all duration-200 shadow-sm focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center font-medium text-sm text-primary bg-transparent hover:bg-surface-container-low active:bg-surface-container border border-surface-container-highest rounded-lg px-5 py-2.5 transition-all duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center font-medium text-sm text-on-surface hover:bg-surface-container-high rounded-lg px-3.5 py-2 transition-all duration-200 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  /* Card elevation levels */
+  .card-level-2 {
+    @apply bg-white rounded-xl border border-surface-container-high shadow-level-2 transition-shadow duration-200;
+  }
+
+  .card-level-2:hover {
+    @apply shadow-level-3;
+  }
+
+  /* Input fields */
+  .input-field {
+    @apply rounded-lg border border-surface-container-highest bg-white px-4 py-2.5 text-sm text-on-surface placeholder:text-on-surface-variant/60 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 outline-none;
+  }
+}
+

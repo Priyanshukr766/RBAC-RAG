@@ -1,0 +1,158 @@
+# ==============================================================================
+# RBAC RAG Root .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Environment Variables & Secrets (CRITICAL SECURITY)
+# ------------------------------------------------------------------------------
+.env
+.env.*
+*.env
+!.env.example
+*.pem
+*.key
+*.cert
+*.pfx
+*.p12
+
+# ------------------------------------------------------------------------------
+# 2. Python & Virtual Environments
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Packaging & Distribution
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+pip-wheel-metadata/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+
+# Type Checking & Linters
+.mypy_cache/
+.pyright/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ------------------------------------------------------------------------------
+# 3. Node.js & Frontend Artifacts
+# ------------------------------------------------------------------------------
+node_modules/
+dist/
+dist-ssr/
+*.local
+.eslintcache
+.turbo/
+
+# npm / yarn / pnpm logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# 4. Backend Application Generated Storage & Databases
+# ------------------------------------------------------------------------------
+# Ignore all dynamically ingested PDFs, annotated visual artifacts, and audit logs
+storage/raw_uploads/*
+!storage/raw_uploads/.gitkeep
+storage/annotated_pdfs/*
+!storage/annotated_pdfs/.gitkeep
+storage/retrieval_logs/*
+!storage/retrieval_logs/.gitkeep
+
+rbac-rag-backend/storage/raw_uploads/*
+!rbac-rag-backend/storage/raw_uploads/.gitkeep
+rbac-rag-backend/storage/annotated_pdfs/*
+!rbac-rag-backend/storage/annotated_pdfs/.gitkeep
+rbac-rag-backend/storage/retrieval_logs/*
+!rbac-rag-backend/storage/retrieval_logs/.gitkeep
+
+uploads/
+tmp/
+temp/
+
+# Databases
+*.sqlite
+*.sqlite3
+*.db
+chroma_db/
+*.parquet
+
+# ------------------------------------------------------------------------------
+# 5. Video Generation & Media Production Assets (EXCLUDED FROM GIT)
+# ------------------------------------------------------------------------------
+# All video capture directories, raw screencasts, screenshots, and video renders
+recordings/
+*.mp4
+*.webm
+*.mov
+*.avi
+*.mkv
+
+# All narration scripts, TTS audio directories, audio clips, and timing manifests
+scripts/
+*.mp3
+*.wav
+
+# ------------------------------------------------------------------------------
+# 6. Scratch & Browser Test Scripts
+# ------------------------------------------------------------------------------
+rbac-rag-frontend/scripts/test_*.cjs
+rbac-rag-frontend/scripts/test_*.js
+scripts/test_*.cjs
+scripts/test_*.js
+
+# ------------------------------------------------------------------------------
+# 7. IDE, Editor, & Operating System Files
+# ------------------------------------------------------------------------------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+*.swo
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Agent / Tool cache
+.opencode/
+
+# Generic Logs
+*.log
+logs/
+

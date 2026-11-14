@@ -1,0 +1,26 @@
+{
+  "name": "rbac-rag",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Priyanshukr766/RBAC-RAG.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Priyanshukr766/RBAC-RAG/issues"
+  },
+  "homepage": "https://github.com/Priyanshukr766/RBAC-RAG#readme",
+  "description": "",
+  "devDependencies": {
+    "playwright": "^1.65.0"
+  }
+}
