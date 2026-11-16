@@ -90,7 +90,7 @@ export const RoleRevocationPanel: React.FC<RoleRevocationPanelProps> = ({
     role: AllowedRole
   ): Promise<{ token: string; userId: number }> => {
     try {
-      const res = await loginUser(email, 'DemoPass123!');
+      const res = await loginUser(email, 'DemoPass123!', false);
       return { token: res.access_token, userId: res.user_id };
     } catch (err: any) {
       if (err?.response?.status === 401 || err?.response?.status === 404) {

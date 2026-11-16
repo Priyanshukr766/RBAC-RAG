@@ -156,3 +156,5 @@ $RECYCLE.BIN/
 *.log
 logs/
 
+# Documentation & Internal Specs
+docs/

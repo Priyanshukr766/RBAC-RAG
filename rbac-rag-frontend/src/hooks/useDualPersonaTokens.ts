@@ -30,7 +30,7 @@ export function useDualPersonaTokens(): DualPersonaTokensState {
   const acquireToken = async (key: DemoPersonaKey): Promise<string> => {
     const persona = DEMO_PERSONAS[key];
     try {
-      const res = await loginUser(persona.email, DEFAULT_DEMO_PASSWORD);
+      const res = await loginUser(persona.email, DEFAULT_DEMO_PASSWORD, false);
       return res.access_token;
     } catch (err: any) {
       if (err?.response?.status === 401 || err?.response?.status === 404) {

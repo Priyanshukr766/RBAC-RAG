@@ -6,12 +6,16 @@ import {
   TokenResponse,
 } from '../types/auth';
 
-export async function loginUser(email: string, password: string): Promise<TokenResponse> {
+export async function loginUser(
+  email: string,
+  password: string,
+  persistToken: boolean = true
+): Promise<TokenResponse> {
   const response = await apiClient.post<TokenResponse>('/api/v1/auth/login', {
     email,
     password,
   });
-  if (response.data?.access_token) {
+  if (persistToken && response.data?.access_token) {
     setStoredToken(response.data.access_token);
   }
   return response.data;
