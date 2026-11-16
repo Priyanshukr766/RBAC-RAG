@@ -158,3 +158,10 @@ logs/
 
 # Documentation & Internal Specs
 docs/
+
+
+# Scratch & temporary topics
+topics.txt
+
+/package.json
+/package-lock.json
