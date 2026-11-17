@@ -1,3 +1,4 @@
+import os
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterator
@@ -26,8 +27,16 @@ def _ensure_app_pool_open() -> None:
         app_pool.open(wait=True)
 
 def _seed_demo_users(cur: psycopg.Cursor) -> None:
-    """Pre-seeds standard demo personas idempotently with their authorized roles."""
+    """Pre-seeds standard demo personas idempotently when SEED_DEMO_USERS=true."""
+    if os.getenv("SEED_DEMO_USERS", "false").lower() != "true":
+        return
+
+    demo_password = os.getenv("DEMO_PASSWORD")
+    if not demo_password:
+        raise RuntimeError("SEED_DEMO_USERS is true but DEMO_PASSWORD is not set")
+
     from backend.auth.jwt_handler import hash_password
+    demo_pw_hash = hash_password(demo_password)
 
     demo_users = [
         ("admin@company.com", "System Administrator", "admin"),
@@ -36,7 +45,6 @@ def _seed_demo_users(cur: psycopg.Cursor) -> None:
         ("vikram.fin@company.com", "Vikram Singhania", "finance"),
         ("neha.intern@company.com", "Neha Verma", "intern"),
     ]
-    demo_pw_hash = hash_password("DemoPass123!")
 
     for email, full_name, role in demo_users:
         cur.execute(
@@ -45,7 +53,6 @@ def _seed_demo_users(cur: psycopg.Cursor) -> None:
             VALUES (%s, %s, %s, %s, TRUE)
             ON CONFLICT (email) DO UPDATE SET
                 role = EXCLUDED.role,
-                password_hash = EXCLUDED.password_hash,
                 full_name = EXCLUDED.full_name,
                 is_active = TRUE;
             """,

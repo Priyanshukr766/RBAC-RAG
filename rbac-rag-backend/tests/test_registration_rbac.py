@@ -45,8 +45,11 @@ def test_registration_assigns_baseline_employee_role():
             cur.execute("DELETE FROM users WHERE user_id = %s;", (reg_res.user_id,))
 
 
-def test_demo_personas_seeded_correctly():
-    """Verify database initialization seeds demo personas with designated roles."""
+def test_demo_personas_seeded_correctly(monkeypatch):
+    """Verify database initialization seeds demo personas when SEED_DEMO_USERS=true."""
+    monkeypatch.setenv("SEED_DEMO_USERS", "true")
+    monkeypatch.setenv("DEMO_PASSWORD", "DemoPass123!")
+
     init_db_schema()
 
     expected_personas = {
@@ -64,3 +67,48 @@ def test_demo_personas_seeded_correctly():
             assert row is not None, f"Persona {email} should be seeded in users table"
             assert row["role"] == expected_role
             assert row["is_active"] is True
+
+
+def test_demo_personas_not_seeded_when_disabled(monkeypatch):
+    """Verify no admin@company.com row is created when SEED_DEMO_USERS is false."""
+    monkeypatch.setenv("SEED_DEMO_USERS", "false")
+
+    with get_admin_cursor() as cur:
+        cur.execute("SELECT user_id FROM users WHERE email = 'admin@company.com';")
+        row = cur.fetchone()
+        admin_id = row["user_id"] if row else None
+
+        if admin_id:
+            cur.execute("UPDATE audit_logs SET user_id = NULL WHERE user_id = %s;", (admin_id,))
+            cur.execute("UPDATE documents SET uploaded_by = NULL WHERE uploaded_by = %s;", (admin_id,))
+            cur.execute("DELETE FROM users WHERE user_id = %s;", (admin_id,))
+
+    try:
+        init_db_schema()
+
+        with get_admin_cursor() as cur:
+            cur.execute("SELECT user_id FROM users WHERE email = 'admin@company.com';")
+            assert cur.fetchone() is None
+    finally:
+        # Re-seed demo users so downstream tests and demo logins succeed
+        monkeypatch.setenv("SEED_DEMO_USERS", "true")
+        monkeypatch.setenv("DEMO_PASSWORD", "DemoPass123!")
+        init_db_schema()
+
+        if admin_id:
+            with get_admin_cursor() as cur:
+                cur.execute("SELECT user_id FROM users WHERE email = 'admin@company.com';")
+                new_row = cur.fetchone()
+                if new_row:
+                    new_id = new_row["user_id"]
+                    cur.execute("UPDATE audit_logs SET user_id = %s WHERE user_id IS NULL;", (new_id,))
+                    cur.execute("UPDATE documents SET uploaded_by = %s WHERE uploaded_by IS NULL;", (new_id,))
+
+
+def test_demo_seeding_requires_password_env(monkeypatch):
+    """Verify RuntimeError is raised when SEED_DEMO_USERS=true but DEMO_PASSWORD is not set."""
+    monkeypatch.setenv("SEED_DEMO_USERS", "true")
+    monkeypatch.delenv("DEMO_PASSWORD", raising=False)
+
+    with pytest.raises(RuntimeError, match="SEED_DEMO_USERS is true but DEMO_PASSWORD is not set"):
+        init_db_schema()

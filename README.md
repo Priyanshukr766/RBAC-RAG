@@ -59,7 +59,7 @@ Evaluations used a synthetic corpus of 7 documents (199 pages, 380 chunks) and 7
 
 - **Small synthetic dataset:** Tested only on 7 synthetic PDF documents. Noisy, scanned, or complex tabular documents have not been evaluated.
 - **Single-role sessions:** One active role per user. No role hierarchy (senior roles inheriting junior permissions) and no multi-role membership.
-- **Hardcoded roles:** The role list (`engineering`, `hr`, `finance`, `all_employees`, `admin`) is fixed in the database scripts, not managed through an admin API. The `all_employees` and `admin` rules are written directly into the RLS policy.
+- **Fixed role definitions:** The set of allowed roles (`engineering`, `hr`, `finance`, `all_employees`, `admin`) and their access rules are defined in the database schema and RLS policies rather than dynamically created at runtime. User role assignments can be modified via the admin API (`PUT /api/v1/auth/admin/update-role`), but new role types cannot be added without updating the database scripts.
 - **BM25 does not scale as built:** For each query, all chunks authorized for the role are loaded into memory and scored in Python. This is fine for a few hundred chunks but would need a database-side or dedicated search index for a larger corpus.
 - **Exact-match cache:** Paraphrased questions do not hit the cache.
 - **Reranker latency:** The cross-encoder accounts for most of the response time (p95 about 2.2 s vs about 127 ms for hybrid RRF).
@@ -69,6 +69,8 @@ Evaluations used a synthetic corpus of 7 documents (199 pages, 380 chunks) and 7
 ## Setup and Run
 
 Requirements: Docker, Python 3.11+, Node.js, and an OpenAI API key (used for document tagging and answer generation).
+
+Demo accounts (admin, hr, engineering, finance, intern) are created only when SEED_DEMO_USERS=true. They are for local use only. Set it to false and remove DEMO_PASSWORD in any shared or deployed environment.
 
 ### 1. Database and Cache
 ```bash
@@ -96,6 +98,13 @@ npm install
 npm run dev
 ```
 The interface is available at `http://localhost:5173`.
+
+Demo personas for local login (password configured in `DEMO_PASSWORD`, default `DemoPass123!`):
+- Admin: `admin@company.com`
+- HR: `priya.hr@company.com`
+- Engineering: `arjun.eng@company.com`
+- Finance: `vikram.fin@company.com`
+- Intern: `neha.intern@company.com`
 
 ### 4. Tests and Evaluations
 The tests and evaluation scripts need PostgreSQL and Redis running, and some also need `LLM_API_KEY` set. The evaluation scripts expect the sample documents to be ingested first.

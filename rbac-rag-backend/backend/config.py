@@ -1,5 +1,8 @@
 ﻿from functools import lru_cache
+from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+load_dotenv()
 
 class Settings(BaseSettings):
     APP_NAME: str = "Production RBAC RAG API"
@@ -20,6 +23,8 @@ class Settings(BaseSettings):
     ANNOTATED_PDF_DIR: str = "storage/annotated_pdfs"
     RETRIEVAL_LOG_ENABLED: bool = True
     RETRIEVAL_LOG_DIR: str = "storage/retrieval_logs"
+    SEED_DEMO_USERS: bool = False
+    DEMO_PASSWORD: str = ""
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
