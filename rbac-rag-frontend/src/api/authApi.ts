@@ -1,6 +1,5 @@
 import { apiClient, setStoredToken } from './axiosClient';
 import {
-  AllowedRole,
   AuthenticatedUser,
   RoleUpdateRequest,
   TokenResponse,
@@ -24,14 +23,12 @@ export async function loginUser(
 export async function registerUser(
   email: string,
   password: string,
-  fullName: string,
-  role: AllowedRole
+  fullName: string
 ): Promise<TokenResponse> {
   const response = await apiClient.post<TokenResponse>('/api/v1/auth/register', {
     email,
     password,
     full_name: fullName,
-    role,
   });
   if (response.data?.access_token) {
     setStoredToken(response.data.access_token);

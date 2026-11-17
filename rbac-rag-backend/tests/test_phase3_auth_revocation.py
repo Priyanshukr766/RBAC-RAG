@@ -16,16 +16,25 @@ def test_subsecond_live_role_revocation():
     init_db_schema()
     unique_email = f"priya_{uuid.uuid4().hex[:8]}@corp.com"
 
-    # 1. Register Priya with role='hr' and log her in to obtain hr_jwt
+    # 1. Register Priya (assigned baseline 'all_employees') and assign her 'hr' via admin
     reg_res = register_user(
         UserCreateRequest(
             email=unique_email,
             password="StrongPassword123!",
             full_name="Priya Sharma",
-            role="hr",
         )
     )
     user_id = reg_res.user_id
+    assert reg_res.role == "all_employees"
+
+    # Admin grants 'hr' role
+    mock_admin = AuthenticatedUser(
+        user_id=0, email="admin@corp.com", role="admin", is_active=True
+    )
+    update_user_role(
+        payload=RoleUpdateRequest(user_id=user_id, new_role="hr", is_active=True),
+        _admin=mock_admin,
+    )
 
     login_res = login_user(
         UserLoginRequest(email=unique_email, password="StrongPassword123!")

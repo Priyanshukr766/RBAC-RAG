@@ -14,6 +14,8 @@ from backend.models.auth_schemas import (
 
 router = APIRouter(prefix="/api/v1/auth", tags=["auth"])
 
+DEFAULT_REGISTRATION_ROLE = "all_employees"
+
 
 @router.post("/register", response_model=TokenResponse)
 def register_user(payload: UserCreateRequest) -> TokenResponse:
@@ -31,7 +33,7 @@ def register_user(payload: UserCreateRequest) -> TokenResponse:
             VALUES (%s, %s, %s, %s, TRUE)
             RETURNING user_id, email, role;
             """,
-            (payload.email, pw_hash, payload.full_name, payload.role),
+            (payload.email, pw_hash, payload.full_name, DEFAULT_REGISTRATION_ROLE),
         )
         row = cur.fetchone()
 

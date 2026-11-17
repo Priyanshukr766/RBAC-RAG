@@ -25,6 +25,34 @@ def _ensure_app_pool_open() -> None:
     if app_pool.closed:
         app_pool.open(wait=True)
 
+def _seed_demo_users(cur: psycopg.Cursor) -> None:
+    """Pre-seeds standard demo personas idempotently with their authorized roles."""
+    from backend.auth.jwt_handler import hash_password
+
+    demo_users = [
+        ("admin@company.com", "System Administrator", "admin"),
+        ("priya.hr@company.com", "Priya Patel", "hr"),
+        ("arjun.eng@company.com", "Arjun Mehta", "engineering"),
+        ("vikram.fin@company.com", "Vikram Singhania", "finance"),
+        ("neha.intern@company.com", "Neha Verma", "intern"),
+    ]
+    demo_pw_hash = hash_password("DemoPass123!")
+
+    for email, full_name, role in demo_users:
+        cur.execute(
+            """
+            INSERT INTO users (email, password_hash, full_name, role, is_active)
+            VALUES (%s, %s, %s, %s, TRUE)
+            ON CONFLICT (email) DO UPDATE SET
+                role = EXCLUDED.role,
+                password_hash = EXCLUDED.password_hash,
+                full_name = EXCLUDED.full_name,
+                is_active = TRUE;
+            """,
+            (email, demo_pw_hash, full_name, role),
+        )
+
+
 """
 init_db_schema(): Runs schema.sql and rls_policies.sql using the postgres superuser URL 
                    (DATABASE_ADMIN_URL) when the server starts.
@@ -39,6 +67,7 @@ def init_db_schema() -> None:
         with conn.cursor() as cur:
             cur.execute(schema_sql)
             cur.execute(rls_sql)
+            _seed_demo_users(cur)
 
 """
 get_admin_cursor(): Opens a connection as the postgres superuser for administrative tables like users,

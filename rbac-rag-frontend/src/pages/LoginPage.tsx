@@ -3,9 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Lock, Mail, User, ArrowRight, AlertCircle, CheckCircle2 } from 'lucide-react';
 import { useAuth, DEMO_PERSONAS, DemoPersonaKey } from '../context/AuthContext';
 import { registerUser } from '../api/authApi';
-import { AllowedRole } from '../types/auth';
 import RoleBadge from '../components/common/RoleBadge';
-import { ALL_ASSIGNABLE_ROLES, getRoleMeta } from '../utils/roleUtils';
 import { clsx } from 'clsx';
 
 export const LoginPage: React.FC = () => {
@@ -16,7 +14,6 @@ export const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [selectedRole, setSelectedRole] = useState<AllowedRole>('engineering');
 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -44,7 +41,7 @@ export const LoginPage: React.FC = () => {
         await login(email, password);
         // Navigation handled by useEffect
       } else {
-        await registerUser(email, password, fullName, selectedRole);
+        await registerUser(email, password, fullName);
         setSuccessMessage('Registration successful! Logging in...');
         await login(email, password);
       }
@@ -205,32 +202,14 @@ export const LoginPage: React.FC = () => {
             </div>
 
             {mode === 'register' && (
-              <div>
-                <label className="block text-xs font-semibold text-on-surface uppercase tracking-wider mb-2">
-                  Assign Organization Role
-                </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {ALL_ASSIGNABLE_ROLES.map((r) => {
-                    const isSelected = selectedRole === r;
-                    const meta = getRoleMeta(r);
-                    return (
-                      <button
-                        key={r}
-                        type="button"
-                        onClick={() => setSelectedRole(r)}
-                        className={clsx(
-                          'flex items-center justify-between p-2.5 rounded-lg border text-left text-xs transition-all duration-200',
-                          isSelected
-                            ? 'border-primary ring-2 ring-primary/20 bg-primary/5 font-semibold text-on-surface'
-                            : 'border-surface-container-high hover:border-surface-container-highest bg-white text-on-surface-variant'
-                        )}
-                      >
-                        <span className="truncate">{meta.shortLabel}</span>
-                        <RoleBadge role={r} size="xs" variant={isSelected ? 'solid' : 'subtle'} />
-                      </button>
-                    );
-                  })}
+              <div className="rounded-lg bg-surface-container/60 border border-surface-container-high p-3.5 text-xs text-on-surface-variant space-y-1.5">
+                <div className="font-semibold text-on-surface flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
+                  Default Role: Employee (all_employees)
                 </div>
+                <p className="leading-relaxed">
+                  Self-registered accounts automatically receive standard Employee baseline access. Elevated permissions (HR, Finance, Engineering, Admin) must be granted by a System Administrator.
+                </p>
               </div>
             )}
 

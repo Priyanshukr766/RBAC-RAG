@@ -1,5 +1,5 @@
 from typing import Literal
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 AllowedRole = Literal[
     "admin",
@@ -12,10 +12,11 @@ AllowedRole = Literal[
 
 
 class UserCreateRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     email: str
     password: str
     full_name: str
-    role: AllowedRole
 
 
 class UserLoginRequest(BaseModel):

@@ -186,8 +186,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           res = await registerUser(
             persona.email,
             DEFAULT_DEMO_PASSWORD,
-            persona.name,
-            persona.role
+            persona.name
           );
         } else {
           throw loginErr;

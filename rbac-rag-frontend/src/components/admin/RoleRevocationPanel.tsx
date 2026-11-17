@@ -94,7 +94,14 @@ export const RoleRevocationPanel: React.FC<RoleRevocationPanelProps> = ({
       return { token: res.access_token, userId: res.user_id };
     } catch (err: any) {
       if (err?.response?.status === 401 || err?.response?.status === 404) {
-        const reg = await registerUser(email, 'DemoPass123!', name, role);
+        const reg = await registerUser(email, 'DemoPass123!', name);
+        if (role !== 'all_employees') {
+          await updateUserRoleAdmin({
+            user_id: reg.user_id,
+            new_role: role,
+            is_active: true,
+          });
+        }
         return { token: reg.access_token, userId: reg.user_id };
       }
       throw err;

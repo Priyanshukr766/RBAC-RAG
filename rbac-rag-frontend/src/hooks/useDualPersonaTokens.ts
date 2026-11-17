@@ -38,8 +38,7 @@ export function useDualPersonaTokens(): DualPersonaTokensState {
         const regRes = await registerUser(
           persona.email,
           DEFAULT_DEMO_PASSWORD,
-          persona.name,
-          persona.role
+          persona.name
         );
         return regRes.access_token;
       }

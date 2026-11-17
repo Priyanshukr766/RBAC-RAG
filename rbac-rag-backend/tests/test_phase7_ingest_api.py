@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from backend.db.session import init_db_schema, get_admin_cursor, get_rls_cursor
-from backend.auth.dependencies import require_admin
+from backend.auth.dependencies import require_admin, get_current_user
 from backend.models.auth_schemas import AuthenticatedUser
 from backend.routers.ingest_router import router
 
@@ -16,12 +16,14 @@ def test_phase7_full_hitl_and_excel_ingest_workflow():
 
     app = FastAPI()
     app.include_router(router)
-    app.dependency_overrides[require_admin] = lambda: AuthenticatedUser(
+    admin_user = AuthenticatedUser(
         user_id=1,
         email="admin@enterprise.com",
         role="admin",
         is_active=True,
     )
+    app.dependency_overrides[require_admin] = lambda: admin_user
+    app.dependency_overrides[get_current_user] = lambda: admin_user
     client = TestClient(app)
 
     # 1. Build a 1-page mixed-sensitivity PDF in memory
