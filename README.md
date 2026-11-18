@@ -99,7 +99,7 @@ npm run dev
 ```
 The interface is available at `http://localhost:5173`.
 
-Demo personas for local login (password configured in `DEMO_PASSWORD`, default `DemoPass123!`):
+Demo personas for local login (the password comes from `DEMO_PASSWORD`; `.env.example` sets `DemoPass123!`, which the demo UI expects):
 - Admin: `admin@company.com`
 - HR: `priya.hr@company.com`
 - Engineering: `arjun.eng@company.com`
