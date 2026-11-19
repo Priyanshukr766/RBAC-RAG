@@ -41,12 +41,13 @@ def register_user(payload: UserCreateRequest) -> TokenResponse:
     role = str(row["role"])
     sync_user_role_to_redis(user_id, role, is_active=True)
 
-    token = create_jwt_token(user_id=user_id, email=row["email"], role=role)
+    token = create_jwt_token(user_id=user_id, email=row["email"], role=role, is_demo=False)
     return TokenResponse(
         access_token=token,
         user_id=user_id,
         email=row["email"],
         role=role,
+        is_demo=False,
     )
 
 
@@ -75,12 +76,13 @@ def login_user(payload: UserLoginRequest) -> TokenResponse:
     role = str(row["role"])
     sync_user_role_to_redis(user_id, role, is_active=True)
 
-    token = create_jwt_token(user_id=user_id, email=row["email"], role=role)
+    token = create_jwt_token(user_id=user_id, email=row["email"], role=role, is_demo=payload.is_demo)
     return TokenResponse(
         access_token=token,
         user_id=user_id,
         email=row["email"],
         role=role,
+        is_demo=payload.is_demo,
     )
 
 

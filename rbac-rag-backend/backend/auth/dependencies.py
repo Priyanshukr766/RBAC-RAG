@@ -23,6 +23,7 @@ def get_current_user(
     payload = decode_jwt_token(jwt_str)
     user_id = int(payload["user_id"])
     email = str(payload["email"])
+    is_demo = bool(payload.get("is_demo", False))
 
     # Crucial Security Step: Ignore payload["role"] and query live state from Redis/Postgres
     live_role, is_active = get_live_user_state(user_id)
@@ -38,6 +39,7 @@ def get_current_user(
         email=email,
         role=live_role,
         is_active=is_active,
+        is_demo=is_demo,
     )
 
 

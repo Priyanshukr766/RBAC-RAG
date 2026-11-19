@@ -74,6 +74,7 @@ interface AuthContextType {
   user: AuthenticatedUser | null;
   token: string | null;
   isLoading: boolean;
+  isDemoSession: boolean;
   activePersonaKey: DemoPersonaKey | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
@@ -87,6 +88,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<AuthenticatedUser | null>(null);
   const [token, setToken] = useState<string | null>(getStoredToken());
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isDemoSession, setIsDemoSession] = useState<boolean>(() => {
+    return sessionStorage.getItem('rbac_auth_mode') !== 'authenticated';
+  });
   const [activePersonaKey, setActivePersonaKey] = useState<DemoPersonaKey | null>(null);
 
   const determinePersonaKeyFromEmail = (email: string): DemoPersonaKey | null => {
@@ -134,8 +138,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (!hasExplicitLogout) {
         try {
           const defaultPersona = DEMO_PERSONAS['priya_hr'];
-          const res = await loginUser(defaultPersona.email, DEFAULT_DEMO_PASSWORD);
+          const res = await loginUser(defaultPersona.email, DEFAULT_DEMO_PASSWORD, true, true);
           setToken(res.access_token);
+          sessionStorage.setItem('rbac_auth_mode', 'demo');
+          setIsDemoSession(true);
           const liveUser = await fetchCurrentUser();
           setUser(liveUser);
           setActivePersonaKey('priya_hr');
@@ -177,8 +183,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     sessionStorage.removeItem('rbac_explicit_logout');
     try {
-      const res = await loginUser(email, password);
+      const res = await loginUser(email, password, true, false);
       setToken(res.access_token);
+      sessionStorage.setItem('rbac_auth_mode', 'authenticated');
+      setIsDemoSession(false);
       const liveUser = await fetchCurrentUser();
       setUser(liveUser);
       setActivePersonaKey(determinePersonaKeyFromEmail(email));
@@ -189,9 +197,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = (): void => {
     sessionStorage.setItem('rbac_explicit_logout', 'true');
+    sessionStorage.removeItem('rbac_auth_mode');
     setStoredToken(null);
     setToken(null);
     setUser(null);
+    setIsDemoSession(true);
     setActivePersonaKey(null);
   };
 
@@ -204,7 +214,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       let res;
       try {
-        res = await loginUser(persona.email, DEFAULT_DEMO_PASSWORD);
+        res = await loginUser(persona.email, DEFAULT_DEMO_PASSWORD, true, true);
       } catch (loginErr: any) {
         // If user does not exist in a freshly seeded DB, register automatically
         if (loginErr?.response?.status === 401 || loginErr?.response?.status === 404) {
@@ -219,6 +229,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       setToken(res.access_token);
+      sessionStorage.setItem('rbac_auth_mode', 'demo');
+      setIsDemoSession(true);
       const liveUser = await fetchCurrentUser();
       setUser(liveUser);
       setActivePersonaKey(personaKey);
@@ -233,6 +245,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user,
         token,
         isLoading,
+        isDemoSession,
         activePersonaKey,
         login,
         logout,

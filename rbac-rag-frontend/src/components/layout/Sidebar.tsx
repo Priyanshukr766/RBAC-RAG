@@ -6,7 +6,6 @@ import {
   FileUp,
   Activity,
   Layers,
-  Lock,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { clsx } from 'clsx';
@@ -83,7 +82,6 @@ export const Sidebar: React.FC = () => {
 
           {navItems.map((item) => {
             const isActive = location.pathname.startsWith(item.href);
-            const isLocked = item.adminOnly && !isAdmin;
 
             return (
               <Link
@@ -123,10 +121,6 @@ export const Sidebar: React.FC = () => {
                         {item.badge}
                       </span>
                     )}
-
-                    {isLocked && (
-                      <Lock className="w-3 h-3 text-zinc-400 flex-shrink-0" />
-                    )}
                   </div>
 
                   <p className="text-[11px] text-zinc-500 mt-0.5 line-clamp-1 leading-normal font-normal">
@@ -137,18 +131,6 @@ export const Sidebar: React.FC = () => {
             );
           })}
         </nav>
-      </div>
-
-      {/* Bottom: System Status */}
-      <div className="p-3 bg-zinc-50 m-3 rounded-xl border border-zinc-200/80 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800"></span>
-          </span>
-          <span className="text-xs font-medium text-zinc-800">System Ready</span>
-        </div>
-        <span className="text-[10px] font-mono text-zinc-400">v1.0</span>
       </div>
     </aside>
   );

@@ -12,12 +12,14 @@ interface UploadTriageForkProps {
   onProceed: (file: File, mode: UploadMode) => void;
   initialFile?: File | null;
   initialMode?: UploadMode;
+  isDemoMode?: boolean;
 }
 
 export const UploadTriageFork: React.FC<UploadTriageForkProps> = ({
   onProceed,
   initialFile = null,
   initialMode = 'hitl_mixed_visual',
+  isDemoMode = false,
 }) => {
   const [file, setFile] = useState<File | null>(initialFile);
   const [mode, setMode] = useState<UploadMode>(initialMode);
@@ -79,7 +81,7 @@ export const UploadTriageFork: React.FC<UploadTriageForkProps> = ({
       {/* Step Header */}
       <div>
         <div className="inline-flex items-center px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 text-[11px] font-medium tracking-wider uppercase mb-2">
-          <span>Stage 1: Document Ingestion Triage</span>
+          <span>Stage 1: Document Ingestion </span>
         </div>
         <h2 className="text-2xl font-normal tracking-tight text-zinc-950">
           Select Document & Security Processing Mode
@@ -286,19 +288,24 @@ export const UploadTriageFork: React.FC<UploadTriageForkProps> = ({
       {/* Proceed CTA */}
       <div className="flex items-center justify-between pt-4 border-t border-zinc-200">
         <p className="text-xs text-zinc-500">
-          {!file
+          {isDemoMode
+            ? 'Demo Sandbox: Document uploads are restricted to authenticated admin accounts.'
+            : !file
             ? 'Select a document above to unlock the processing pipeline.'
             : `Ready to process "${file.name}" with selected strategy.`}
         </p>
 
         <button
           type="button"
-          disabled={!file}
+          disabled={!file || isDemoMode}
           onClick={handleSubmit}
           className="btn-primary flex items-center gap-2 px-8 py-3 text-sm disabled:opacity-40"
+          title={isDemoMode ? 'Upload is disabled in Demo Mode. Sign in to upload documents.' : undefined}
         >
           <span>
-            {mode === 'express_single_role'
+            {isDemoMode
+              ? 'Upload Locked in Demo Mode'
+              : mode === 'express_single_role'
               ? 'Configure Single-Role Express Ingest'
               : 'Launch AI Scan & Visual Review'}
           </span>

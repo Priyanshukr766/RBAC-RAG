@@ -22,6 +22,7 @@ class UserCreateRequest(BaseModel):
 class UserLoginRequest(BaseModel):
     email: str
     password: str
+    is_demo: bool = False
 
 
 class TokenResponse(BaseModel):
@@ -30,6 +31,7 @@ class TokenResponse(BaseModel):
     user_id: int
     email: str
     role: AllowedRole
+    is_demo: bool = False
 
 
 class RoleUpdateRequest(BaseModel):
@@ -43,3 +45,4 @@ class AuthenticatedUser(BaseModel):
     email: str
     role: AllowedRole
     is_active: bool
+    is_demo: bool = False

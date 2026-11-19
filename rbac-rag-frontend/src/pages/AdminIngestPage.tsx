@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Lock } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 import UploadTriageFork from '../components/ingest/UploadTriageFork';
 import ExpressIngestForm from '../components/ingest/ExpressIngestForm';
 import MixedScanTriggerCard from '../components/ingest/MixedScanTriggerCard';
@@ -16,6 +17,7 @@ export type IngestStep =
   | 'hitl_review';
 
 export const AdminIngestPage: React.FC = () => {
+  const { isDemoSession } = useAuth();
   const [currentStep, setCurrentStep] = useState<IngestStep>('select_file');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [activeDocId, setActiveDocId] = useState<string | null>(null);
@@ -77,7 +79,7 @@ export const AdminIngestPage: React.FC = () => {
             Document Ingestion & Security Mapping
           </h1>
           <p className="text-sm text-zinc-500 mt-1 max-w-2xl">
-            Triage enterprise documents, review sensitivity classifications, and inspect visual bounding box mappings.
+            Sort company documents, check how sensitive they are, and see where important information is located in the documents.
           </p>
         </div>
 
@@ -93,10 +95,30 @@ export const AdminIngestPage: React.FC = () => {
         )}
       </div>
 
+      {/* Demo Mode Notice Banner */}
+      {isDemoSession && (
+        <div className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 text-xs text-zinc-800 flex items-start gap-3">
+          <div className="w-6 h-6 rounded-full bg-zinc-200 flex items-center justify-center flex-shrink-0 text-zinc-700 mt-0.5">
+            <Lock className="w-3.5 h-3.5" />
+          </div>
+          <div className="space-y-0.5">
+            <span className="font-semibold text-zinc-950 block">
+              Demo Sandbox Mode • Document Upload Locked
+            </span>
+            <p className="text-zinc-600 leading-relaxed font-sans">
+              To protect the live demo database, document uploading and modifications are disabled in Demo Mode. You can freely inspect existing documents, test bounding-box previews, and query role data. To upload new documents, please sign out and log in with your administrator credentials.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Step 1: Upload Triage Fork & Documents Library */}
       {currentStep === 'select_file' && (
         <div className="space-y-10">
-          <UploadTriageFork onProceed={handleProceedFromTriage} />
+          <UploadTriageFork
+            onProceed={handleProceedFromTriage}
+            isDemoMode={isDemoSession}
+          />
           <IngestedDocsList
             refreshKey={refreshHistoryKey}
             onSelectDocForReview={handleSelectDocForReview}

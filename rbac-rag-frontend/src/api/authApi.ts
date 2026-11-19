@@ -8,11 +8,13 @@ import {
 export async function loginUser(
   email: string,
   password: string,
-  persistToken: boolean = true
+  persistToken: boolean = true,
+  isDemo: boolean = false
 ): Promise<TokenResponse> {
   const response = await apiClient.post<TokenResponse>('/api/v1/auth/login', {
     email,
     password,
+    is_demo: isDemo,
   });
   if (persistToken && response.data?.access_token) {
     setStoredToken(response.data.access_token);

@@ -88,7 +88,7 @@ export const SplitComparisonHeader: React.FC<SplitComparisonHeaderProps> = ({
             value={leftPersonaKey}
             onChange={(e) => onSelectLeftPersona(e.target.value as DemoPersonaKey)}
             disabled={isExecuting}
-            className="py-1 px-2.5 text-xs bg-white text-zinc-800 border border-zinc-200 rounded-lg hover:border-zinc-300 focus:outline-none focus:ring-1 focus:ring-zinc-400 cursor-pointer"
+            className="py-1 px-2.5 text-xs bg-white text-zinc-800 border border-zinc-200 rounded-lg hover:border-zinc-300 focus:outline-none focus:border-zinc-400 cursor-pointer"
           >
             {personaOptions.map((key) => {
               const p = DEMO_PERSONAS[key];
@@ -122,7 +122,7 @@ export const SplitComparisonHeader: React.FC<SplitComparisonHeaderProps> = ({
             value={rightPersonaKey}
             onChange={(e) => onSelectRightPersona(e.target.value as DemoPersonaKey)}
             disabled={isExecuting}
-            className="py-1 px-2.5 text-xs bg-white text-zinc-800 border border-zinc-200 rounded-lg hover:border-zinc-300 focus:outline-none focus:ring-1 focus:ring-zinc-400 cursor-pointer"
+            className="py-1 px-2.5 text-xs bg-white text-zinc-800 border border-zinc-200 rounded-lg hover:border-zinc-300 focus:outline-none focus:border-zinc-400 cursor-pointer"
           >
             {personaOptions.map((key) => {
               const p = DEMO_PERSONAS[key];

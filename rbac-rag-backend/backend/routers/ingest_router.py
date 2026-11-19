@@ -69,6 +69,12 @@ async def upload_pdf_document(
       - Path A ('express_single_role'): Fast single-department extraction & immediate publishing.
       - Path B ('hitl_mixed_visual'): Structural block extraction, AI/PII auto-tagging, staging, and colored PDF preview.
     """
+    if getattr(admin_user, "is_demo", False):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Document upload is disabled in Demo Mode. Only verified authenticated administrators can upload documents.",
+        )
+
     settings = get_settings()
     filename = file.filename or "uploaded_document.pdf"
     if not filename.lower().endswith(".pdf"):
@@ -420,6 +426,12 @@ def publish_reviewed_document(
     Stage-2 chunks inheriting approved_roles and bbox coordinates, embeds them in batch,
     writes them to document_chunks, and sets document status = 'published'.
     """
+    if getattr(admin_user, "is_demo", False):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Document publishing is disabled in Demo Mode. Only verified authenticated administrators can publish documents.",
+        )
+
     with get_admin_cursor() as cur:
         cur.execute(
             "SELECT doc_id::text, filename FROM documents WHERE doc_id = %s;",

@@ -8,9 +8,26 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
+  /* Prevent rectangular box highlights across all browsers */
+  :focus,
   :focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(24, 24, 27, 0.15);
+    outline: none !important;
+  }
+
+  input,
+  textarea,
+  button,
+  select {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  input:focus,
+  input:focus-visible,
+  textarea:focus,
+  textarea:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
   }
 }
 
@@ -37,9 +54,9 @@
     @apply shadow-sm;
   }
 
-  /* Input fields */
+  /* Input fields - clean border transition without box highlight */
   .input-field {
-    @apply rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-400 focus:ring-2 focus:ring-zinc-100 transition-all duration-200 outline-none;
+    @apply rounded-xl border border-zinc-200 bg-white px-4 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400 focus:border-zinc-300 focus:outline-none focus:ring-0 transition-all duration-200;
   }
 }
 
