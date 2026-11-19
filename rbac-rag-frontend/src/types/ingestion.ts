@@ -2,8 +2,7 @@ import { AllowedRole } from "./auth";
 
 export type UploadMode =
   | "express_single_role"
-  | "hitl_mixed_visual"
-  | "excel_column_split";
+  | "hitl_mixed_visual";
 
 export type DocumentStatus =
   | "pending_review"
@@ -54,12 +53,5 @@ export interface BlockRoleUpdateItem {
 
 export interface BlockRoleUpdateRequest {
   updates: BlockRoleUpdateItem[];
-}
-
-export interface ExcelSplitConfig {
-  anchor_columns: string[];
-  public_columns: string[];
-  public_roles: AllowedRole[];
-  restricted_column_map: Record<string, AllowedRole[]>;
 }
 

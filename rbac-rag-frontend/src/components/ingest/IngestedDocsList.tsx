@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
   FileText,
-  FileSpreadsheet,
   ExternalLink,
   Eye,
   RefreshCw,
@@ -97,12 +96,6 @@ export const IngestedDocsList: React.FC<IngestedDocsListProps> = ({
             Visual HITL (Path B)
           </span>
         );
-      case 'excel_column_split':
-        return (
-          <span className="px-2 py-0.5 rounded-md text-[11px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-            Excel Split (Path C)
-          </span>
-        );
       default:
         return (
           <span className="px-2 py-0.5 rounded-md text-[11px] font-medium bg-surface-container text-on-surface-variant">
@@ -147,16 +140,16 @@ export const IngestedDocsList: React.FC<IngestedDocsListProps> = ({
           <div className="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center mx-auto text-on-surface-variant">
             <FileText className="w-6 h-6" />
           </div>
-          <p className="text-sm font-semibold text-on-surface">No documents uploaded yet</p>
-          <p className="text-xs text-on-surface-variant max-w-sm mx-auto">
-            Drag and drop a PDF or Excel document above to begin the ingestion, PyMuPDF bounding-box review, or column splitting process.
+          <p className="text-sm font-semibold text-zinc-900">No documents uploaded yet</p>
+          <p className="text-xs text-zinc-500 max-w-sm mx-auto">
+            Drag and drop a PDF document above to begin the ingestion or PyMuPDF bounding-box review process.
           </p>
         </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-surface-container-lowest border-b border-surface-container-high text-on-surface-variant font-semibold uppercase tracking-wider text-[11px]">
+              <tr className="bg-zinc-50 border-b border-zinc-200 text-zinc-500 font-semibold uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-4">Document</th>
                 <th className="py-3 px-4">Ingestion Strategy</th>
                 <th className="py-3 px-4">Access Status</th>
@@ -164,36 +157,24 @@ export const IngestedDocsList: React.FC<IngestedDocsListProps> = ({
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-surface-container-high">
+            <tbody className="divide-y divide-zinc-200">
               {docs.map((doc) => {
-                const isExcel = doc.filename.toLowerCase().endsWith('.xlsx');
-                const isPdf = doc.filename.toLowerCase().endsWith('.pdf');
-
                 return (
                   <tr
                     key={doc.doc_id}
-                    className="hover:bg-surface-container-lowest transition-colors duration-150"
+                    className="hover:bg-zinc-50/50 transition-colors duration-150"
                   >
                     {/* Document Name */}
                     <td className="py-3.5 px-4">
                       <div className="flex items-center gap-3">
-                        <div
-                          className={clsx(
-                            'w-8 h-8 rounded-lg flex items-center justify-center text-white flex-shrink-0',
-                            isExcel ? 'bg-emerald-600' : 'bg-primary'
-                          )}
-                        >
-                          {isExcel ? (
-                            <FileSpreadsheet className="w-4 h-4" />
-                          ) : (
-                            <FileText className="w-4 h-4" />
-                          )}
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white flex-shrink-0 bg-zinc-900">
+                          <FileText className="w-4 h-4" />
                         </div>
                         <div className="min-w-0">
-                          <span className="font-semibold text-on-surface block truncate max-w-xs" title={doc.filename}>
+                          <span className="font-semibold text-zinc-900 block truncate max-w-xs" title={doc.filename}>
                             {doc.filename}
                           </span>
-                          <span className="text-[10px] text-on-surface-variant font-mono">
+                          <span className="text-[10px] text-zinc-400 font-mono">
                             ID: {doc.doc_id.slice(0, 8)}...
                           </span>
                         </div>
@@ -215,31 +196,29 @@ export const IngestedDocsList: React.FC<IngestedDocsListProps> = ({
                     <td className="py-3.5 px-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         {/* Interactive Review / Inspect Blocks */}
-                        {isPdf && onSelectDocForReview && (
+                        {onSelectDocForReview && (
                           <button
                             type="button"
                             onClick={() => onSelectDocForReview(doc)}
                             className="btn-secondary text-[11px] px-3 py-1 flex items-center gap-1 shadow-2xs"
                             title="Open interactive bounding-box review checklist & PDF inspector"
                           >
-                            <Eye className="w-3 h-3 text-primary" />
+                            <Eye className="w-3 h-3 text-zinc-700" />
                             <span>{doc.upload_mode === 'hitl_mixed_visual' ? 'Review Blocks' : 'Inspect Viewer'}</span>
                           </button>
                         )}
 
                         {/* View Full PDF / Audit Trail */}
-                        {isPdf && (
-                          <a
-                            href={getAnnotatedPdfFullUrl(doc.doc_id)}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 px-3 py-1 text-[11px] font-medium rounded-md bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 transition-colors shadow-2xs"
-                            title="Inspect colored bounding-box audit trail PDF in new browser tab"
-                          >
-                            <ExternalLink className="w-3 h-3 text-primary" />
-                            <span>View PDF</span>
-                          </a>
-                        )}
+                        <a
+                          href={getAnnotatedPdfFullUrl(doc.doc_id)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 px-3 py-1 text-[11px] font-medium rounded-full bg-zinc-50 hover:bg-zinc-100 border border-zinc-200 text-zinc-700 transition-colors shadow-2xs"
+                          title="Inspect colored bounding-box audit trail PDF in new browser tab"
+                        >
+                          <ExternalLink className="w-3 h-3 text-zinc-700" />
+                          <span>View PDF</span>
+                        </a>
                       </div>
                     </td>
                   </tr>

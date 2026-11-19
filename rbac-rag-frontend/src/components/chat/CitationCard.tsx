@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, FileSpreadsheet, ExternalLink } from 'lucide-react';
+import { FileText, ExternalLink } from 'lucide-react';
 import { CitationItem } from '../../types/chat';
 import { clsx } from 'clsx';
 
@@ -16,7 +16,6 @@ export const CitationCard: React.FC<CitationCardProps> = ({
   compact = false,
   className,
 }) => {
-  const isExcel = citation.filename.toLowerCase().endsWith('.xlsx') || citation.page_number === null;
   const bboxFormatted = citation.bbox
     ? `[${citation.bbox.map((n) => Math.round(n)).join(', ')}]`
     : null;
@@ -33,15 +32,13 @@ export const CitationCard: React.FC<CitationCardProps> = ({
         )}
         title={`Inspect source citation: ${citation.filename}`}
       >
-        {isExcel ? (
-          <FileSpreadsheet className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />
-        ) : (
-          <FileText className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />
-        )}
+        <FileText className="w-3.5 h-3.5 text-zinc-600 flex-shrink-0" />
         <span className="truncate max-w-[140px] font-medium">{citation.filename}</span>
-        <span className="font-mono text-[10px] text-zinc-400">
-          {citation.page_number ? `P. ${citation.page_number}` : 'Excel'}
-        </span>
+        {citation.page_number && (
+          <span className="font-mono text-[10px] text-zinc-400">
+            P. {citation.page_number}
+          </span>
+        )}
         <ExternalLink className="w-2.5 h-2.5 text-zinc-400 group-hover:text-zinc-700 transition-colors" />
       </button>
     );
@@ -59,17 +56,15 @@ export const CitationCard: React.FC<CitationCardProps> = ({
         {/* Document Header */}
         <div className="flex items-center justify-between gap-1">
           <span className="font-medium text-xs text-zinc-900 truncate group-hover:text-black transition-colors flex items-center gap-1.5">
-            {isExcel ? (
-              <FileSpreadsheet className="w-4 h-4 text-zinc-600 flex-shrink-0" />
-            ) : (
-              <FileText className="w-4 h-4 text-zinc-600 flex-shrink-0" />
-            )}
+            <FileText className="w-4 h-4 text-zinc-600 flex-shrink-0" />
             <span className="truncate">{citation.filename}</span>
           </span>
 
-          <span className="font-mono text-[10px] text-zinc-500 px-2 py-0.5 rounded-full bg-white border border-zinc-200 flex-shrink-0 font-medium">
-            {citation.page_number ? `Page ${citation.page_number}` : 'Spreadsheet Row'}
-          </span>
+          {citation.page_number && (
+            <span className="font-mono text-[10px] text-zinc-500 px-2 py-0.5 rounded-full bg-white border border-zinc-200 flex-shrink-0 font-medium">
+              Page {citation.page_number}
+            </span>
+          )}
         </div>
 
         {/* Section Heading */}

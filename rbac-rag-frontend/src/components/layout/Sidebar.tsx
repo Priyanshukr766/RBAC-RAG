@@ -45,7 +45,7 @@ export const Sidebar: React.FC = () => {
       icon: FileUp,
       adminOnly: true,
       badge: 'ADMIN',
-      description: 'PyMuPDF bounding-box review & Excel split',
+      description: 'PyMuPDF visual review & role-scoped ingestion',
     },
     {
       name: 'Security & Audit Logs',

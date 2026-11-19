@@ -23,7 +23,6 @@ export default defineConfig({
       output: {
         manualChunks(id: string) {
           if (id.includes('node_modules')) {
-            if (id.includes('xlsx')) return 'vendor-xlsx';
             if (id.includes('lucide-react')) return 'vendor-icons';
             if (id.includes('react-router') || id.includes('react')) return 'vendor-react';
           }

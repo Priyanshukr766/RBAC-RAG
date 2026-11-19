@@ -33,7 +33,7 @@ export const WelcomeNoteModal: React.FC<WelcomeNoteModalProps> = ({ isOpen, onCl
 
         {/* Intro */}
         <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
-          In this project demo, I tried to solve 4 major headaches that enterprise RAG systems face when multiple departments share the same knowledge base. Here is a breakdown of each problem and my approach to solving it:
+          In this project demo, I tried to solve <b>4 major headaches</b>  that enterprise RAG systems face when multiple departments share the same knowledge base. Here is a breakdown of each problem and my approach to solving it:
         </p>
 
         {/* Structured Problem & Approach List */}

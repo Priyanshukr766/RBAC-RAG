@@ -148,18 +148,19 @@ export const EmployeeChatPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto flex flex-col h-[calc(100vh-6.5rem)] animate-fade-in relative">
+    <div className="max-w-3xl w-full mx-auto flex-1 flex flex-col min-h-0 animate-fade-in relative">
       {messages.length === 0 ? (
         /* Empty State / Grok-Style Hero Screen */
-        <div className="h-full flex flex-col items-center justify-center text-center p-4 max-w-2xl mx-auto my-auto animate-fade-in w-full">
-          {/* Centered Heading */}
-          <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-zinc-900 mb-2">
-            What would you like to search today?
-          </h1>
-          <p className="text-xs sm:text-sm text-zinc-500 mb-8 max-w-md mx-auto">
-            Answers are strictly grounded in documentation approved for your role (
-            <strong className="text-zinc-800 font-medium">{user?.role.toUpperCase()}</strong>).
-          </p>
+        <div className="flex-1 flex flex-col items-center justify-between text-center p-2 max-w-2xl mx-auto w-full min-h-0">
+          <div className="w-full my-auto flex flex-col items-center pt-2">
+            {/* Centered Heading */}
+            <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-zinc-900 mb-2">
+              What would you like to search today?
+            </h1>
+            <p className="text-xs sm:text-sm text-zinc-500 mb-6 max-w-md mx-auto">
+              Answers are strictly grounded in documentation approved for your role (
+              <strong className="text-zinc-800 font-medium">{user?.role.toUpperCase()}</strong>).
+            </p>
 
           {/* Centered Floating Pill Input Bar */}
           <form
@@ -209,14 +210,14 @@ export const EmployeeChatPage: React.FC = () => {
 
           {/* Grok-Style Stacked Minimalist Prompt Suggestions */}
           {!showAllPrompts ? (
-            <div className="w-full mt-6 space-y-1">
-              {SUGGESTED_PROMPTS.slice(0, 5).map((item) => (
+            <div className="w-full space-y-1">
+              {SUGGESTED_PROMPTS.slice(0, 3).map((item) => (
                 <button
                   key={item.id}
                   type="button"
                   disabled={isLoading}
                   onClick={() => handleSendMessage(item.text)}
-                  className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left text-sm text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 transition-colors group"
+                  className="w-full flex items-center gap-3 px-4 py-2 rounded-xl text-left text-xs sm:text-sm text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 transition-colors group"
                 >
                   {item.iconType === 'file' && <FileText className="w-4 h-4 text-zinc-400 group-hover:text-zinc-700 flex-shrink-0" />}
                   {item.iconType === 'terminal' && <Terminal className="w-4 h-4 text-zinc-400 group-hover:text-zinc-700 flex-shrink-0" />}
@@ -227,18 +228,18 @@ export const EmployeeChatPage: React.FC = () => {
                 </button>
               ))}
 
-              <div className="pt-2 text-center">
+              <div className="pt-1 text-center">
                 <button
                   type="button"
                   onClick={() => setShowAllPrompts(true)}
-                  className="text-xs text-zinc-500 hover:text-zinc-900 font-medium px-3 py-1.5 rounded-full hover:bg-zinc-100 transition-colors"
+                  className="text-xs text-zinc-500 hover:text-zinc-900 font-medium px-3 py-1 rounded-full hover:bg-zinc-100 transition-colors"
                 >
                   View all 12 suggested test prompts by role ⌵
                 </button>
               </div>
             </div>
           ) : (
-            <div className="w-full mt-6 text-left space-y-2">
+            <div className="w-full text-left space-y-2 max-h-[42vh] overflow-y-auto pr-1">
               <div className="flex items-center justify-between px-1">
                 <span className="text-xs font-medium text-zinc-500">All 12 Test Prompts:</span>
                 <button
@@ -256,15 +257,16 @@ export const EmployeeChatPage: React.FC = () => {
               />
             </div>
           )}
+          </div>
 
           {/* Minimalist Disclaimer Footer */}
-          <p className="text-xs text-zinc-400 text-center mt-12">
+          <p className="text-xs text-zinc-400 text-center pb-1 flex-shrink-0">
             Enterprise RAG with dynamic RBAC. Answers strictly grounded in authorized documents.
           </p>
         </div>
       ) : (
         /* Active Conversation Screen */
-        <>
+        <div className="flex-1 flex flex-col min-h-0 h-full">
           {/* Streamlined Workspace Header */}
           <div className="flex items-center justify-between pb-3 mb-2 border-b border-zinc-200/80 flex-shrink-0">
             <div className="flex items-center gap-2">
@@ -403,7 +405,7 @@ export const EmployeeChatPage: React.FC = () => {
               Enterprise RAG with dynamic RBAC. Answers strictly grounded in authorized documents.
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {/* Slide-Over PDF Citation Inspection Drawer */}

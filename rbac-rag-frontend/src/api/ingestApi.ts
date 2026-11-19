@@ -2,7 +2,6 @@ import { apiClient, getStoredToken } from './axiosClient';
 import { AllowedRole } from '../types/auth';
 import {
   BlockRoleUpdateItem,
-  ExcelSplitConfig,
   IngestedDocumentSummary,
   LogicalBlockItem,
   UploadResponse,
@@ -71,29 +70,6 @@ export async function publishApprovedDocument(
 ): Promise<{ doc_id: string; status: string; chunks_created: number }> {
   const response = await apiClient.post(
     `/api/v1/ingest/documents/${docId}/publish`
-  );
-  return response.data;
-}
-
-export async function uploadExcelWithSplitConfig(
-  file: File,
-  config: ExcelSplitConfig
-): Promise<UploadResponse> {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('anchor_columns', JSON.stringify(config.anchor_columns));
-  formData.append('public_columns', JSON.stringify(config.public_columns));
-  formData.append('public_roles', JSON.stringify(config.public_roles));
-  formData.append('restricted_column_map', JSON.stringify(config.restricted_column_map));
-
-  const response = await apiClient.post<UploadResponse>(
-    '/api/v1/ingest/upload-excel',
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }
   );
   return response.data;
 }

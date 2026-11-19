@@ -3,7 +3,6 @@ import { ArrowLeft } from 'lucide-react';
 import UploadTriageFork from '../components/ingest/UploadTriageFork';
 import ExpressIngestForm from '../components/ingest/ExpressIngestForm';
 import MixedScanTriggerCard from '../components/ingest/MixedScanTriggerCard';
-import ExcelColumnSplitter from '../components/ingest/ExcelColumnSplitter';
 import IngestedDocsList from '../components/ingest/IngestedDocsList';
 import HitlReviewInbox from '../components/ingest/HitlReviewInbox';
 import AnnotatedPdfPreview from '../components/ingest/AnnotatedPdfPreview';
@@ -14,7 +13,6 @@ export type IngestStep =
   | 'select_file'
   | 'express_mode'
   | 'hitl_mixed_scan'
-  | 'excel_mode'
   | 'hitl_review';
 
 export const AdminIngestPage: React.FC = () => {
@@ -34,8 +32,6 @@ export const AdminIngestPage: React.FC = () => {
       setCurrentStep('express_mode');
     } else if (mode === 'hitl_mixed_visual') {
       setCurrentStep('hitl_mixed_scan');
-    } else if (mode === 'excel_column_split') {
-      setCurrentStep('excel_mode');
     }
   };
 
@@ -123,15 +119,6 @@ export const AdminIngestPage: React.FC = () => {
           file={selectedFile}
           onBack={handleBackToSelect}
           onScanComplete={handleScanComplete}
-        />
-      )}
-
-      {/* Step 2C: Excel Column Splitter Workspace */}
-      {currentStep === 'excel_mode' && selectedFile && (
-        <ExcelColumnSplitter
-          file={selectedFile}
-          onBack={handleBackToSelect}
-          onUploadSuccess={() => setRefreshHistoryKey((k) => k + 1)}
         />
       )}
 
