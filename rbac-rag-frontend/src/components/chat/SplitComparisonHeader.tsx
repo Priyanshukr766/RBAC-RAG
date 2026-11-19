@@ -64,25 +64,22 @@ export const SplitComparisonHeader: React.FC<SplitComparisonHeaderProps> = ({
   const rightP = DEMO_PERSONAS[rightPersonaKey];
 
   return (
-    <div className="bg-white rounded-xl border border-surface-container-high shadow-level-2 p-5 sm:p-6 space-y-5">
+    <div className="bg-white rounded-2xl border border-zinc-200 shadow-xs p-5 sm:p-6 space-y-5">
       {/* Persona Selection Strip */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4 border-b border-surface-container-high">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-4 border-b border-zinc-100">
         {/* Left Persona Picker */}
-        <div className="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest border border-surface-container-high">
+        <div className="flex items-center justify-between p-3 rounded-xl bg-zinc-50/70 border border-zinc-200/80">
           <div className="flex items-center gap-3">
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-xs flex-shrink-0"
-              style={{ backgroundColor: leftP.colorHex }}
-            >
+            <div className="w-8 h-8 rounded-full bg-zinc-100 text-zinc-700 border border-zinc-200 text-xs font-medium flex items-center justify-center flex-shrink-0">
               {leftP.avatarText}
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant block">
-                Left Comparison Persona:
+              <span className="text-[10px] font-medium uppercase tracking-wider text-zinc-400 block">
+                Left Persona
               </span>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-on-surface">{leftP.name}</span>
-                <RoleBadge role={leftP.role} size="xs" variant="solid" />
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-semibold text-zinc-900">{leftP.name}</span>
+                <RoleBadge role={leftP.role} size="xs" variant="subtle" />
               </div>
             </div>
           </div>
@@ -91,7 +88,7 @@ export const SplitComparisonHeader: React.FC<SplitComparisonHeaderProps> = ({
             value={leftPersonaKey}
             onChange={(e) => onSelectLeftPersona(e.target.value as DemoPersonaKey)}
             disabled={isExecuting}
-            className="input-field py-1 px-2.5 text-xs bg-white cursor-pointer"
+            className="py-1 px-2.5 text-xs bg-white text-zinc-800 border border-zinc-200 rounded-lg hover:border-zinc-300 focus:outline-none focus:ring-1 focus:ring-zinc-400 cursor-pointer"
           >
             {personaOptions.map((key) => {
               const p = DEMO_PERSONAS[key];
@@ -105,21 +102,18 @@ export const SplitComparisonHeader: React.FC<SplitComparisonHeaderProps> = ({
         </div>
 
         {/* Right Persona Picker */}
-        <div className="flex items-center justify-between p-3 rounded-lg bg-surface-container-lowest border border-surface-container-high">
+        <div className="flex items-center justify-between p-3 rounded-xl bg-zinc-50/70 border border-zinc-200/80">
           <div className="flex items-center gap-3">
-            <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-xs flex-shrink-0"
-              style={{ backgroundColor: rightP.colorHex }}
-            >
+            <div className="w-8 h-8 rounded-full bg-zinc-100 text-zinc-700 border border-zinc-200 text-xs font-medium flex items-center justify-center flex-shrink-0">
               {rightP.avatarText}
             </div>
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-wider text-on-surface-variant block">
-                Right Comparison Persona:
+              <span className="text-[10px] font-medium uppercase tracking-wider text-zinc-400 block">
+                Right Persona
               </span>
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-bold text-on-surface">{rightP.name}</span>
-                <RoleBadge role={rightP.role} size="xs" variant="solid" />
+              <div className="flex items-center gap-1.5">
+                <span className="text-xs font-semibold text-zinc-900">{rightP.name}</span>
+                <RoleBadge role={rightP.role} size="xs" variant="subtle" />
               </div>
             </div>
           </div>
@@ -128,7 +122,7 @@ export const SplitComparisonHeader: React.FC<SplitComparisonHeaderProps> = ({
             value={rightPersonaKey}
             onChange={(e) => onSelectRightPersona(e.target.value as DemoPersonaKey)}
             disabled={isExecuting}
-            className="input-field py-1 px-2.5 text-xs bg-white cursor-pointer"
+            className="py-1 px-2.5 text-xs bg-white text-zinc-800 border border-zinc-200 rounded-lg hover:border-zinc-300 focus:outline-none focus:ring-1 focus:ring-zinc-400 cursor-pointer"
           >
             {personaOptions.map((key) => {
               const p = DEMO_PERSONAS[key];
@@ -144,8 +138,8 @@ export const SplitComparisonHeader: React.FC<SplitComparisonHeaderProps> = ({
 
       {/* Suggested Comparison Prompt Chips */}
       <div className="space-y-1.5">
-        <div className="text-xs font-semibold text-on-surface-variant">
-          Recommended Live Interview Prompts:
+        <div className="text-xs font-medium text-zinc-500">
+          Recommended Prompts:
         </div>
 
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-thin">
@@ -156,14 +150,14 @@ export const SplitComparisonHeader: React.FC<SplitComparisonHeaderProps> = ({
               disabled={isExecuting}
               onClick={() => onPromptChange(item.query)}
               className={clsx(
-                'flex-shrink-0 inline-flex items-center px-3 py-1.5 rounded-lg border text-xs text-left transition-all duration-200',
+                'flex-shrink-0 inline-flex items-center px-3 py-1.5 rounded-full border text-xs text-left transition-all',
                 prompt === item.query
-                  ? 'border-primary bg-primary/10 text-primary font-semibold ring-1 ring-primary/20'
-                  : 'border-surface-container-high bg-white hover:border-surface-container-highest text-on-surface'
+                  ? 'border-zinc-900 bg-zinc-100 text-zinc-950 font-medium ring-1 ring-zinc-900/10'
+                  : 'border-zinc-200 bg-white hover:bg-zinc-50 hover:border-zinc-300 text-zinc-600'
               )}
               title={item.note}
             >
-              <span className="font-semibold">{item.title}</span>
+              <span>{item.title}</span>
             </button>
           ))}
         </div>

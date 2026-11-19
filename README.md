@@ -81,8 +81,7 @@ docker compose up -d
 ### 2. Backend
 ```bash
 cp .env.example .env
-# Set LLM_API_KEY in .env. Change JWT_SECRET_KEY and the database passwords
-# before using this anywhere other than a local machine.
+# Set LLM_API_KEY and JWT_SECRET_KEY (generate with the command in .env.example)
 
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate

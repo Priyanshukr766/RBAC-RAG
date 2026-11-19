@@ -19,14 +19,10 @@ export const LoginPage: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // If already authenticated, redirect to appropriate workspace
+  // If already authenticated, redirect to chat workspace
   useEffect(() => {
     if (user) {
-      if (user.role === 'admin') {
-        navigate('/admin/ingest');
-      } else {
-        navigate('/chat');
-      }
+      navigate('/chat');
     }
   }, [user, navigate]);
 
@@ -248,17 +244,14 @@ export const LoginPage: React.FC = () => {
                     className="w-full flex items-center justify-between p-3 rounded-lg border border-surface-container-high hover:border-primary/50 hover:bg-surface-container-lowest transition-all duration-200 group text-left"
                   >
                     <div className="flex items-center gap-3 min-w-0">
-                      <div
-                        className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-sm flex-shrink-0"
-                        style={{ backgroundColor: persona.colorHex }}
-                      >
+                      <div className="w-8 h-8 rounded-full bg-zinc-900 text-white text-xs font-medium flex items-center justify-center flex-shrink-0">
                         {persona.avatarText}
                       </div>
                       <div className="min-w-0">
-                        <div className="text-xs font-semibold text-on-surface group-hover:text-primary transition-colors truncate">
+                        <div className="text-xs font-medium text-zinc-900 group-hover:text-black transition-colors truncate">
                           {persona.name}
                         </div>
-                        <div className="text-[11px] text-on-surface-variant truncate">
+                        <div className="text-[11px] text-zinc-500 truncate">
                           {persona.department}
                         </div>
                       </div>

@@ -1,5 +1,6 @@
 from functools import lru_cache
 from dotenv import load_dotenv
+from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 load_dotenv()
@@ -9,7 +10,7 @@ class Settings(BaseSettings):
     DATABASE_ADMIN_URL: str
     DATABASE_APP_URL: str
     REDIS_URL: str = "redis://localhost:6379/0"
-    JWT_SECRET_KEY: str = "super-secret-change-in-prod-key-256-bits"
+    JWT_SECRET_KEY: str
     JWT_ALGORITHM: str = "HS256"
     JWT_EXPIRE_MINUTES: int = 60
     EMBEDDING_MODEL_NAME: str = "BAAI/bge-base-en-v1.5"
@@ -25,6 +26,15 @@ class Settings(BaseSettings):
     RETRIEVAL_LOG_DIR: str = "storage/retrieval_logs"
     SEED_DEMO_USERS: bool = False
     DEMO_PASSWORD: str = ""
+
+    @field_validator("JWT_SECRET_KEY")
+    @classmethod
+    def jwt_secret_must_be_strong(cls, value: str) -> str:
+        if len(value) < 32 or value.startswith("super-secret-change-in-prod"):
+            raise ValueError(
+                "JWT_SECRET_KEY must be a random value of at least 32 characters"
+            )
+        return value
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 

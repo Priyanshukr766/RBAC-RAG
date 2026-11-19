@@ -4,7 +4,11 @@ import { useAuth, DEMO_PERSONAS, DemoPersonaKey } from '../../context/AuthContex
 import RoleBadge from '../common/RoleBadge';
 import { clsx } from 'clsx';
 
-export const PersonaSwitcherBar: React.FC = () => {
+interface PersonaSwitcherBarProps {
+  onOpenWelcomeNote?: () => void;
+}
+
+export const PersonaSwitcherBar: React.FC<PersonaSwitcherBarProps> = ({ onOpenWelcomeNote }) => {
   const { user, activePersonaKey, switchDemoPersona, refreshLiveRole, logout, isLoading } = useAuth();
   const [isSyncing, setIsSyncing] = useState<boolean>(false);
   const [syncFeedback, setSyncFeedback] = useState<string | null>(null);
@@ -33,30 +37,38 @@ export const PersonaSwitcherBar: React.FC = () => {
     'system_admin',
   ];
 
+  const ROLE_SHORT_LABELS: Record<string, string> = {
+    hr: 'HR',
+    engineering: 'Eng',
+    finance: 'Fin',
+    intern: 'Intern',
+    admin: 'Admin',
+    all_employees: 'All',
+  };
+
+  const activeDemoPersona = Object.values(DEMO_PERSONAS).find(
+    (p) => p.email.toLowerCase() === user?.email.toLowerCase()
+  );
+  const displayName = user?.full_name || activeDemoPersona?.name || user?.email || 'Not Signed In';
+  const avatarInitials = activeDemoPersona?.avatarText || (displayName.length >= 2 ? displayName.slice(0, 2).toUpperCase() : '??');
+
   return (
-    <header className="w-full bg-white border-b border-surface-container-high px-4 py-2.5 shadow-sm sticky top-0 z-30">
-      <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+    <header className="w-full bg-white border-b border-zinc-200/80 px-3 sm:px-5 py-2.5 sticky top-0 z-30">
+      <div className="w-full flex items-center justify-between gap-2 sm:gap-4 flex-nowrap">
         {/* Left: Active User & Live Role Telemetry */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-xs">
-              {user?.full_name
-                ? user.full_name
-                    .split(' ')
-                    .map((n) => n[0])
-                    .join('')
-                    .slice(0, 2)
-                    .toUpperCase()
-                : user?.email.slice(0, 2).toUpperCase() || '??'}
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 min-w-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-8 h-8 rounded-full bg-zinc-900 text-white font-medium text-xs flex items-center justify-center flex-shrink-0 shadow-xs">
+              {avatarInitials}
             </div>
-            <div className="flex flex-col">
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-on-surface leading-tight">
-                  {user?.full_name || user?.email || 'Not Signed In'}
+            <div className="flex flex-col min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="text-xs sm:text-sm font-medium text-zinc-900 leading-tight truncate max-w-[120px] sm:max-w-[180px]">
+                  {displayName}
                 </span>
-                {user && <RoleBadge role={user.role} size="xs" variant="solid" />}
+                {user && <RoleBadge role={user.role} size="xs" variant="subtle" />}
               </div>
-              <span className="text-[11px] text-on-surface-variant font-mono">
+              <span className="text-[11px] text-zinc-500 truncate max-w-[140px] sm:max-w-[200px]">
                 {user ? user.email : 'Demo Sandbox Mode'}
               </span>
             </div>
@@ -64,27 +76,27 @@ export const PersonaSwitcherBar: React.FC = () => {
 
           {/* Sync Live Role Button */}
           {user && (
-            <div className="flex items-center gap-1.5 pl-2 border-l border-surface-container-high">
+            <div className="flex items-center gap-1.5 pl-2 border-l border-zinc-200 flex-shrink-0">
               <button
                 type="button"
                 onClick={handleSyncLiveRole}
                 disabled={isSyncing || isLoading}
                 className={clsx(
-                  'inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-lg border transition-all duration-200',
-                  'border-surface-container-highest hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface',
+                  'inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-full border transition-colors',
+                  'border-zinc-200 hover:bg-zinc-100 text-zinc-700 hover:text-zinc-950',
                   'disabled:opacity-50'
                 )}
-                title="Refresh user profile and permissions"
+                title="Refresh user live role and permissions"
               >
                 <RefreshCw
-                  className={clsx('w-3 h-3 text-primary', isSyncing && 'animate-spin')}
+                  className={clsx('w-3 h-3 text-zinc-600', isSyncing && 'animate-spin text-zinc-900')}
                 />
-                <span>Sync Live Role</span>
+                <span className="hidden md:inline text-[11px]">Sync Role</span>
               </button>
 
               {syncFeedback && (
-                <span className="inline-flex items-center gap-1 text-[11px] text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-md animate-fade-in font-medium">
-                  <Check className="w-2.5 h-2.5" />
+                <span className="hidden lg:inline-flex items-center gap-1 text-[11px] text-zinc-800 bg-zinc-100 border border-zinc-200 px-2 py-0.5 rounded-full font-medium animate-fade-in">
+                  <Check className="w-2.5 h-2.5 text-zinc-700" />
                   {syncFeedback}
                 </span>
               )}
@@ -93,15 +105,13 @@ export const PersonaSwitcherBar: React.FC = () => {
         </div>
 
         {/* Center/Right: 1-Click Demo Persona Switcher */}
-        <div className="flex items-center gap-1.5 flex-wrap">
-          <div className="hidden lg:flex items-center text-xs font-semibold text-slate-500 mr-1 uppercase tracking-wider text-[11px]">
-            <span>1-Click Persona:</span>
-          </div>
-
-          <div className="inline-flex items-center p-1 bg-surface-container-low rounded-lg border border-surface-container-high gap-1">
+        <div className="flex items-center gap-1 sm:gap-2 flex-nowrap flex-shrink-0">
+          <div className="inline-flex items-center p-0.5 sm:p-1 bg-zinc-100/90 rounded-full border border-zinc-200/80 gap-0.5 sm:gap-1 flex-nowrap">
             {personaOrder.map((key) => {
               const p = DEMO_PERSONAS[key];
               const isActive = activePersonaKey === key || (user && user.role === p.role && user.email === p.email);
+              const shortRole = ROLE_SHORT_LABELS[p.role] || p.role.toUpperCase();
+              const firstName = p.key === 'system_admin' ? 'Admin' : p.name.split(' ')[0];
 
               return (
                 <button
@@ -110,33 +120,41 @@ export const PersonaSwitcherBar: React.FC = () => {
                   disabled={isLoading}
                   onClick={() => switchDemoPersona(key)}
                   className={clsx(
-                    'inline-flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-medium transition-all duration-200',
+                    'inline-flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full text-xs font-medium transition-all flex-shrink-0',
                     isActive
-                      ? 'bg-white text-on-surface shadow-sm font-semibold ring-2 ring-primary/40'
-                      : 'text-on-surface-variant hover:text-on-surface hover:bg-white/60',
+                      ? 'bg-zinc-900 text-white shadow-xs font-medium'
+                      : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-200/60',
                     isLoading && 'pointer-events-none opacity-60'
                   )}
                   title={`Switch to ${p.name} (${p.role.toUpperCase()})`}
                 >
-                  <span
-                    className="w-2 h-2 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: p.colorHex }}
-                  />
-                  <span>{p.name.split(' ')[0]}</span>
-                  <span className="text-[10px] uppercase font-bold opacity-75">
-                    ({p.role === 'all_employees' ? 'pub' : p.role === 'engineering' ? 'eng' : p.role})
+                  <span>{firstName}</span>
+                  <span className="text-[10px] opacity-75 font-normal">
+                    ({shortRole})
                   </span>
                 </button>
               );
             })}
           </div>
 
+          {/* Developer Welcome Note */}
+          {onOpenWelcomeNote && (
+            <button
+              type="button"
+              onClick={onOpenWelcomeNote}
+              className="px-3 py-1 text-xs font-medium rounded-full border border-zinc-200 bg-white text-zinc-800 hover:bg-zinc-100 hover:text-zinc-950 transition-colors ml-0.5 flex-shrink-0"
+              title="Read Priyanshu's developer note & project overview"
+            >
+              Project Note
+            </button>
+          )}
+
           {/* Logout */}
           {user && (
             <button
               type="button"
               onClick={logout}
-              className="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-error-container/30 transition-all duration-200 ml-1"
+              className="p-1.5 rounded-full text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 transition-colors ml-0.5 flex-shrink-0"
               title="Sign Out"
             >
               <LogOut className="w-4 h-4" />

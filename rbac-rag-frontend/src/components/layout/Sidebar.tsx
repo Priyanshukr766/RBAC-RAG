@@ -4,8 +4,8 @@ import {
   MessageSquare,
   GitCompare,
   FileUp,
-  ShieldAlert,
-  Shield,
+  Activity,
+  Layers,
   Lock,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -50,7 +50,7 @@ export const Sidebar: React.FC = () => {
     {
       name: 'Security & Audit Logs',
       href: '/admin/security',
-      icon: ShieldAlert,
+      icon: Activity,
       adminOnly: true,
       badge: 'ADMIN',
       description: 'Instant Redis role revocation & audit logs',
@@ -58,26 +58,26 @@ export const Sidebar: React.FC = () => {
   ];
 
   return (
-    <aside className="w-64 flex-shrink-0 bg-white border-r border-surface-container-high flex flex-col justify-between h-screen sticky top-0 z-20">
+    <aside className="w-64 flex-shrink-0 bg-white border-r border-zinc-200/80 flex flex-col justify-between h-screen sticky top-0 z-20">
       {/* Top: Brand Header */}
       <div>
-        <div className="p-5 border-b border-surface-container-high flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center text-white shadow-sm flex-shrink-0">
-            <Shield className="w-5 h-5 text-white" />
+        <div className="p-4 border-b border-zinc-200/80 flex items-center gap-3">
+          <div className="w-8 h-8 rounded-full bg-zinc-900 flex items-center justify-center text-white flex-shrink-0 shadow-xs">
+            <Layers className="w-4 h-4 text-white" />
           </div>
           <div className="min-w-0">
-            <div className="text-sm font-bold tracking-tight text-on-surface truncate">
-              RBAC RAG Core
+            <div className="text-sm font-semibold tracking-tight text-zinc-950 truncate">
+              RBAC RAG
             </div>
-            <div className="text-[11px] text-primary font-medium tracking-wide truncate">
-              Production Pipeline
+            <div className="text-[11px] text-zinc-500 font-normal truncate">
+              Enterprise Search
             </div>
           </div>
         </div>
 
         {/* Navigation Links */}
-        <nav className="p-3 space-y-1.5">
-          <div className="px-3 py-1.5 text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">
+        <nav className="p-3 space-y-1">
+          <div className="px-3 py-1.5 text-[10px] font-medium text-zinc-400 uppercase tracking-wider">
             Workspaces
           </div>
 
@@ -90,16 +90,16 @@ export const Sidebar: React.FC = () => {
                 key={item.href}
                 to={item.href}
                 className={clsx(
-                  'group flex items-start gap-3 p-3 rounded-lg transition-all duration-200 text-left relative',
+                  'group flex items-start gap-2.5 p-2.5 rounded-xl transition-colors text-left relative',
                   isActive
-                    ? 'bg-primary/10 text-primary font-semibold ring-1 ring-primary/20'
-                    : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low'
+                    ? 'bg-zinc-100 text-zinc-950 font-medium'
+                    : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50'
                 )}
               >
                 <item.icon
                   className={clsx(
-                    'w-5 h-5 flex-shrink-0 mt-0.5 transition-colors duration-200',
-                    isActive ? 'text-primary' : 'text-on-surface-variant group-hover:text-on-surface'
+                    'w-4 h-4 flex-shrink-0 mt-0.5 transition-colors',
+                    isActive ? 'text-zinc-950' : 'text-zinc-400 group-hover:text-zinc-700'
                   )}
                 />
 
@@ -112,12 +112,12 @@ export const Sidebar: React.FC = () => {
                     {item.badge && (
                       <span
                         className={clsx(
-                          'text-[10px] font-bold px-1.5 py-0.2 rounded-md uppercase tracking-wider flex-shrink-0',
+                          'text-[9px] font-medium px-1.5 py-0.2 rounded-full uppercase tracking-wider flex-shrink-0',
                           item.badge === 'ADMIN'
                             ? isAdmin
-                              ? 'bg-slate-900 text-white'
-                              : 'bg-surface-container-high text-on-surface-variant'
-                            : 'bg-primary-container text-on-primary-container'
+                              ? 'bg-zinc-900 text-white'
+                              : 'bg-zinc-100 text-zinc-500'
+                            : 'bg-zinc-100 text-zinc-700 border border-zinc-200/80'
                         )}
                       >
                         {item.badge}
@@ -125,18 +125,14 @@ export const Sidebar: React.FC = () => {
                     )}
 
                     {isLocked && (
-                      <Lock className="w-3 h-3 text-on-surface-variant/70 flex-shrink-0" />
+                      <Lock className="w-3 h-3 text-zinc-400 flex-shrink-0" />
                     )}
                   </div>
 
-                  <p className="text-[11px] text-on-surface-variant/80 mt-0.5 line-clamp-1 leading-normal font-normal">
+                  <p className="text-[11px] text-zinc-500 mt-0.5 line-clamp-1 leading-normal font-normal">
                     {item.description}
                   </p>
                 </div>
-
-                {isActive && (
-                  <div className="absolute right-1 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-full" />
-                )}
               </Link>
             );
           })}
@@ -144,15 +140,15 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* Bottom: System Status */}
-      <div className="p-3 bg-surface-container-lowest m-3 rounded-lg border border-surface-container-high flex items-center justify-between">
+      <div className="p-3 bg-zinc-50 m-3 rounded-xl border border-zinc-200/80 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <span className="flex h-2 w-2 relative">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-zinc-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-800"></span>
           </span>
-          <span className="text-xs font-medium text-on-surface">System Online</span>
+          <span className="text-xs font-medium text-zinc-800">System Ready</span>
         </div>
-        <span className="text-[10px] font-mono text-on-surface-variant">v1.0</span>
+        <span className="text-[10px] font-mono text-zinc-400">v1.0</span>
       </div>
     </aside>
   );

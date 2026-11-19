@@ -113,17 +113,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const initializeAuth = async () => {
       const existingToken = getStoredToken();
-      if (existingToken) {
+      const hasExplicitLogout = sessionStorage.getItem('rbac_explicit_logout') === 'true';
+
+      if (existingToken && !hasExplicitLogout) {
         try {
           const liveUser = await fetchCurrentUser();
           setUser(liveUser);
           setActivePersonaKey(determinePersonaKeyFromEmail(liveUser.email));
+          setIsLoading(false);
+          return;
         } catch {
           setStoredToken(null);
           setToken(null);
           setUser(null);
         }
       }
+
+      // If user hasn't explicitly logged out in this session, auto-authenticate default persona (Priya - HR)
+      // so the application opens directly to the main Employee Chat workspace
+      if (!hasExplicitLogout) {
+        try {
+          const defaultPersona = DEMO_PERSONAS['priya_hr'];
+          const res = await loginUser(defaultPersona.email, DEFAULT_DEMO_PASSWORD);
+          setToken(res.access_token);
+          const liveUser = await fetchCurrentUser();
+          setUser(liveUser);
+          setActivePersonaKey('priya_hr');
+          setIsLoading(false);
+          return;
+        } catch (err) {
+          console.warn('Auto-login as default demo persona failed:', err);
+        }
+      }
+
       setIsLoading(false);
     };
 
@@ -153,6 +175,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = async (email: string, password: string): Promise<void> => {
     setIsLoading(true);
+    sessionStorage.removeItem('rbac_explicit_logout');
     try {
       const res = await loginUser(email, password);
       setToken(res.access_token);
@@ -165,6 +188,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = (): void => {
+    sessionStorage.setItem('rbac_explicit_logout', 'true');
     setStoredToken(null);
     setToken(null);
     setUser(null);
@@ -176,6 +200,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!persona) return;
 
     setIsLoading(true);
+    sessionStorage.removeItem('rbac_explicit_logout');
     try {
       let res;
       try {

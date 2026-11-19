@@ -1,16 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  Send,
+  Plus,
+  ArrowUp,
   RotateCcw,
   Loader2,
   CheckCircle2,
+  ChevronDown,
+  FileText,
+  Terminal,
+  Lock,
+  BarChart3,
+  AlertCircle,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { ChatMessage, ChatQueryResponse, CitationItem } from '../types/chat';
 import { sendChatQuery } from '../api/chatApi';
 import RoleBadge from '../components/common/RoleBadge';
 import MessageBubble from '../components/chat/MessageBubble';
-import RolePromptSuggestions from '../components/chat/RolePromptSuggestions';
+import RolePromptSuggestions, { SUGGESTED_PROMPTS } from '../components/chat/RolePromptSuggestions';
 import PdfCitationDrawer from '../components/chat/PdfCitationDrawer';
 import { clsx } from 'clsx';
 
@@ -21,6 +28,7 @@ export const EmployeeChatPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [loadingStage, setLoadingStage] = useState<number>(1);
   const [activeCitation, setActiveCitation] = useState<CitationItem | null>(null);
+  const [showAllPrompts, setShowAllPrompts] = useState<boolean>(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -140,58 +148,144 @@ export const EmployeeChatPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto flex flex-col h-[calc(100vh-6.5rem)] animate-fade-in relative">
-      {/* Workspace Header Strip */}
-      <div className="flex items-center justify-between pb-3 mb-2 border-b border-surface-container-high flex-shrink-0">
-        <div>
-          <h1 className="text-lg font-bold text-on-surface leading-tight flex items-center gap-2">
-            <span>Secure Employee Search & Chat</span>
-            {user && <RoleBadge role={user.role} size="xs" variant="solid" />}
+    <div className="max-w-4xl mx-auto flex flex-col h-[calc(100vh-6.5rem)] animate-fade-in relative">
+      {messages.length === 0 ? (
+        /* Empty State / Grok-Style Hero Screen */
+        <div className="h-full flex flex-col items-center justify-center text-center p-4 max-w-2xl mx-auto my-auto animate-fade-in w-full">
+          {/* Centered Heading */}
+          <h1 className="text-3xl sm:text-4xl font-normal tracking-tight text-zinc-900 mb-2">
+            What would you like to search today?
           </h1>
-          <p className="text-[11px] text-on-surface-variant font-mono">
-            Search across company policies, technical documentation, and role-authorized data
+          <p className="text-xs sm:text-sm text-zinc-500 mb-8 max-w-md mx-auto">
+            Answers are strictly grounded in documentation approved for your role (
+            <strong className="text-zinc-800 font-medium">{user?.role.toUpperCase()}</strong>).
+          </p>
+
+          {/* Centered Floating Pill Input Bar */}
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSendMessage();
+            }}
+            className="w-full rounded-full bg-white border border-zinc-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] p-2 pl-4 flex items-center justify-between gap-3 transition-all"
+          >
+            <button
+              type="button"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors flex-shrink-0"
+              title="Add attachment"
+            >
+              <Plus className="w-4 h-4" />
+            </button>
+
+            <input
+              type="text"
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              disabled={isLoading}
+              placeholder={`Ask, search documents, or test role boundaries...`}
+              className="flex-1 bg-transparent text-sm sm:text-base text-zinc-900 placeholder:text-zinc-400 outline-none"
+            />
+
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <span className="px-3 py-1.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 border border-zinc-200/80 flex items-center gap-1 select-none">
+                <span>{user?.role.toUpperCase()}</span>
+                <ChevronDown className="w-3 h-3 text-zinc-400" />
+              </span>
+
+              <button
+                type="submit"
+                disabled={!inputText.trim() || isLoading}
+                className="w-9 h-9 rounded-full bg-zinc-900 text-white flex items-center justify-center hover:bg-zinc-800 disabled:opacity-30 disabled:hover:bg-zinc-900 transition-all flex-shrink-0"
+                title="Send query"
+              >
+                {isLoading ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-white" />
+                ) : (
+                  <ArrowUp className="w-4 h-4 text-white" />
+                )}
+              </button>
+            </div>
+          </form>
+
+          {/* Grok-Style Stacked Minimalist Prompt Suggestions */}
+          {!showAllPrompts ? (
+            <div className="w-full mt-6 space-y-1">
+              {SUGGESTED_PROMPTS.slice(0, 5).map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => handleSendMessage(item.text)}
+                  className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-left text-sm text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100/70 transition-colors group"
+                >
+                  {item.iconType === 'file' && <FileText className="w-4 h-4 text-zinc-400 group-hover:text-zinc-700 flex-shrink-0" />}
+                  {item.iconType === 'terminal' && <Terminal className="w-4 h-4 text-zinc-400 group-hover:text-zinc-700 flex-shrink-0" />}
+                  {item.iconType === 'lock' && <Lock className="w-4 h-4 text-zinc-400 group-hover:text-zinc-700 flex-shrink-0" />}
+                  {item.iconType === 'chart' && <BarChart3 className="w-4 h-4 text-zinc-400 group-hover:text-zinc-700 flex-shrink-0" />}
+                  {item.iconType === 'alert' && <AlertCircle className="w-4 h-4 text-zinc-400 group-hover:text-zinc-700 flex-shrink-0" />}
+                  <span className="truncate flex-1">{item.text}</span>
+                </button>
+              ))}
+
+              <div className="pt-2 text-center">
+                <button
+                  type="button"
+                  onClick={() => setShowAllPrompts(true)}
+                  className="text-xs text-zinc-500 hover:text-zinc-900 font-medium px-3 py-1.5 rounded-full hover:bg-zinc-100 transition-colors"
+                >
+                  View all 12 suggested test prompts by role ⌵
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="w-full mt-6 text-left space-y-2">
+              <div className="flex items-center justify-between px-1">
+                <span className="text-xs font-medium text-zinc-500">All 12 Test Prompts:</span>
+                <button
+                  type="button"
+                  onClick={() => setShowAllPrompts(false)}
+                  className="text-xs text-zinc-500 hover:text-zinc-900 font-medium px-2 py-0.5 rounded-full hover:bg-zinc-100"
+                >
+                  Show less ⌃
+                </button>
+              </div>
+              <RolePromptSuggestions
+                disabled={isLoading}
+                onSelectPrompt={(prompt) => handleSendMessage(prompt)}
+                defaultExpanded={true}
+              />
+            </div>
+          )}
+
+          {/* Minimalist Disclaimer Footer */}
+          <p className="text-xs text-zinc-400 text-center mt-12">
+            Enterprise RAG with dynamic RBAC. Answers strictly grounded in authorized documents.
           </p>
         </div>
+      ) : (
+        /* Active Conversation Screen */
+        <>
+          {/* Streamlined Workspace Header */}
+          <div className="flex items-center justify-between pb-3 mb-2 border-b border-zinc-200/80 flex-shrink-0">
+            <div className="flex items-center gap-2">
+              <h1 className="text-sm font-semibold text-zinc-900">Enterprise Knowledge Base</h1>
+              {user && <RoleBadge role={user.role} size="xs" variant="subtle" />}
+            </div>
 
-        <div className="flex items-center gap-2">
-          {messages.length > 0 && (
             <button
               type="button"
               onClick={handleClearChat}
               disabled={isLoading}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-surface-container-highest hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors"
-              title="Clear current chat messages"
+              className="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-full border border-zinc-200 hover:bg-zinc-100 text-zinc-600 hover:text-zinc-900 transition-colors"
+              title="Start a new conversation"
             >
-              <RotateCcw className="w-3.5 h-3.5 text-on-surface-variant" />
-              <span>Reset Chat</span>
+              <RotateCcw className="w-3.5 h-3.5 text-zinc-500" />
+              <span>New Chat</span>
             </button>
-          )}
-        </div>
-      </div>
-
-      {/* Main Conversation Stream */}
-      <div className="flex-1 overflow-y-auto pr-1 py-2 space-y-5">
-        {messages.length === 0 ? (
-          /* Empty State / Welcome Screen */
-          <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-6 max-w-2xl mx-auto">
-            <div className="space-y-2">
-              <h2 className="text-xl font-bold tracking-tight text-on-surface">
-                Enterprise Knowledge Base
-              </h2>
-              <p className="text-xs text-on-surface-variant max-w-md mx-auto leading-relaxed">
-                Ask any question. Answers are strictly grounded in documentation approved for your role (
-                <strong className="text-on-surface">{user?.role.toUpperCase()}</strong>).
-              </p>
-            </div>
-
-            {/* Suggested Prompt Chips */}
-            <div className="w-full text-left pt-2">
-              <RolePromptSuggestions onSelectPrompt={(prompt) => handleSendMessage(prompt)} />
-            </div>
           </div>
-        ) : (
-          /* Active Messages */
-          <>
+
+          {/* Main Conversation Stream */}
+          <div className="flex-1 overflow-y-auto pr-1 py-2 space-y-5">
             {messages.map((msg) => (
               <MessageBubble
                 key={msg.id}
@@ -202,13 +296,13 @@ export const EmployeeChatPage: React.FC = () => {
 
             {/* 7-Stage Pipeline Loading Skeleton */}
             {isLoading && (
-              <div className="bg-white rounded-xl border border-primary/30 p-5 shadow-level-2 max-w-xl space-y-3 animate-fade-in mr-auto">
-                <div className="flex items-center justify-between text-xs font-bold text-primary pb-2 border-b border-surface-container-high">
+              <div className="bg-white rounded-2xl border border-zinc-200/90 p-5 shadow-xs max-w-xl space-y-3 animate-fade-in mr-auto">
+                <div className="flex items-center justify-between text-xs font-medium text-zinc-900 pb-2 border-b border-zinc-100">
                   <span className="flex items-center gap-2">
-                    <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                    <Loader2 className="w-4 h-4 animate-spin text-zinc-900" />
                     <span>Processing query pipeline...</span>
                   </span>
-                  <span className="font-mono text-[11px]">Stage {loadingStage}/7</span>
+                  <span className="font-mono text-[11px] text-zinc-500">Stage {loadingStage}/7</span>
                 </div>
 
                 <div className="space-y-1.5 text-xs">
@@ -222,17 +316,17 @@ export const EmployeeChatPage: React.FC = () => {
                         className={clsx(
                           'flex items-center justify-between px-2.5 py-1.5 rounded-lg text-[11px] transition-all',
                           isCurrent
-                            ? 'bg-primary/10 text-primary font-semibold'
+                            ? 'bg-zinc-100 text-zinc-900 font-medium'
                             : isDone
-                            ? 'text-emerald-700 font-medium'
-                            : 'text-on-surface-variant/50'
+                            ? 'text-zinc-700'
+                            : 'text-zinc-400'
                         )}
                       >
                         <span className="flex items-center gap-2">
                           {isDone ? (
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                            <CheckCircle2 className="w-3.5 h-3.5 text-zinc-800 flex-shrink-0" />
                           ) : isCurrent ? (
-                            <Loader2 className="w-3.5 h-3.5 text-primary animate-spin flex-shrink-0" />
+                            <Loader2 className="w-3.5 h-3.5 text-zinc-900 animate-spin flex-shrink-0" />
                           ) : (
                             <span className="w-3.5 h-3.5 rounded-full border border-current flex items-center justify-center text-[9px] flex-shrink-0">
                               {st.id}
@@ -240,7 +334,7 @@ export const EmployeeChatPage: React.FC = () => {
                           )}
                           <span>{st.title}</span>
                         </span>
-                        <span className="text-[10px] font-mono opacity-80">{st.detail}</span>
+                        <span className="text-[10px] font-mono text-zinc-500">{st.detail}</span>
                       </div>
                     );
                   })}
@@ -248,56 +342,69 @@ export const EmployeeChatPage: React.FC = () => {
               </div>
             )}
             <div ref={messagesEndRef} />
-          </>
-        )}
-      </div>
+          </div>
 
-      {/* Input Box & Suggested Chips Footer */}
-      <div className="pt-3 border-t border-surface-container-high space-y-2.5 bg-surface-container-lowest flex-shrink-0">
-        {messages.length > 0 && (
-          <RolePromptSuggestions
-            disabled={isLoading}
-            onSelectPrompt={(prompt) => handleSendMessage(prompt)}
-          />
-        )}
+          {/* Bottom Floating Pill Input Bar */}
+          <div className="pt-2 border-t border-zinc-200/80 space-y-2 bg-white flex-shrink-0">
+            <RolePromptSuggestions
+              disabled={isLoading}
+              onSelectPrompt={(prompt) => handleSendMessage(prompt)}
+              defaultExpanded={false}
+            />
 
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSendMessage();
-          }}
-          className="relative flex items-center gap-2 bg-white rounded-xl border border-surface-container-high p-2 shadow-level-2 focus-within:ring-2 focus-within:ring-primary/25 focus-within:border-primary transition-all duration-200"
-        >
-          <textarea
-            ref={textareaRef}
-            rows={1}
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            disabled={isLoading}
-            placeholder={`Ask a question as ${user?.full_name || user?.role.toUpperCase()} (e.g. policies, salaries, AWS spend, pods)...`}
-            className="flex-1 resize-none bg-transparent px-3 py-2 text-sm text-on-surface placeholder:text-on-surface-variant/60 outline-none leading-relaxed"
-          />
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSendMessage();
+              }}
+              className="w-full rounded-full bg-white border border-zinc-200/90 shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] p-2 pl-4 flex items-center justify-between gap-3 transition-all"
+            >
+              <button
+                type="button"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition-colors flex-shrink-0"
+                title="Add attachment"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
 
-          <button
-            type="submit"
-            disabled={!inputText.trim() || isLoading}
-            className="btn-primary w-10 h-10 rounded-lg flex items-center justify-center p-0 flex-shrink-0 disabled:opacity-40"
-            title="Send query (Enter)"
-          >
-            {isLoading ? (
-              <Loader2 className="w-4 h-4 animate-spin text-white" />
-            ) : (
-              <Send className="w-4 h-4 text-white" />
-            )}
-          </button>
-        </form>
+              <textarea
+                ref={textareaRef}
+                rows={1}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={handleKeyDown}
+                disabled={isLoading}
+                placeholder={`Ask a question as ${user?.role.toUpperCase()}...`}
+                className="flex-1 resize-none bg-transparent text-sm sm:text-base text-zinc-900 placeholder:text-zinc-400 outline-none leading-relaxed py-1"
+              />
 
-        <div className="flex items-center justify-between text-[11px] text-on-surface-variant px-2">
-          <span>Press <kbd className="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-[10px]">Enter</kbd> to query, <kbd className="px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface font-mono text-[10px]">Shift+Enter</kbd> for newline</span>
-          <span className="font-mono text-emerald-700">Audit Enabled</span>
-        </div>
-      </div>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                <span className="px-3 py-1.5 rounded-full text-xs font-medium bg-zinc-100 text-zinc-700 border border-zinc-200/80 flex items-center gap-1 select-none">
+                  <span>{user?.role.toUpperCase()}</span>
+                  <ChevronDown className="w-3 h-3 text-zinc-400" />
+                </span>
+
+                <button
+                  type="submit"
+                  disabled={!inputText.trim() || isLoading}
+                  className="w-9 h-9 rounded-full bg-zinc-900 text-white flex items-center justify-center hover:bg-zinc-800 disabled:opacity-30 disabled:hover:bg-zinc-900 transition-all flex-shrink-0"
+                  title="Send query (Enter)"
+                >
+                  {isLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
+                  ) : (
+                    <ArrowUp className="w-4 h-4 text-white" />
+                  )}
+                </button>
+              </div>
+            </form>
+
+            <div className="text-center text-[11px] text-zinc-400 pb-1">
+              Enterprise RAG with dynamic RBAC. Answers strictly grounded in authorized documents.
+            </div>
+          </div>
+        </>
+      )}
 
       {/* Slide-Over PDF Citation Inspection Drawer */}
       <PdfCitationDrawer

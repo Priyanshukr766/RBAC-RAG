@@ -98,22 +98,22 @@ export const ExpressIngestForm: React.FC<ExpressIngestFormProps> = ({
           <span>Back to Triage Strategy Fork</span>
         </button>
 
-        <span className="inline-flex items-center px-3 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-primary/10 text-primary">
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium uppercase tracking-wider bg-zinc-100 border border-zinc-200 text-zinc-700">
           <span>Path A: Express Single-Role</span>
         </span>
       </div>
 
       {/* Main Card */}
-      <div className="bg-white rounded-xl border border-surface-container-high shadow-level-2 p-6 sm:p-8 space-y-6">
+      <div className="bg-white rounded-2xl border border-zinc-200 shadow-xs p-6 sm:p-8 space-y-6">
         {/* Selected File Banner */}
-        <div className="p-4 rounded-lg bg-surface-container-low border border-surface-container-high flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 flex items-center justify-between">
           <div>
-            <div className="text-sm font-bold text-on-surface">{file.name}</div>
-            <div className="text-xs text-on-surface-variant font-mono">
+            <div className="text-sm font-medium text-zinc-950">{file.name}</div>
+            <div className="text-xs text-zinc-500 font-mono">
               {(file.size / 1024).toFixed(1)} KB • Target: Vector Index
             </div>
           </div>
-          <span className="text-xs font-semibold px-2.5 py-1 rounded-md bg-white border border-surface-container-high text-on-surface-variant">
+          <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-white border border-zinc-200 text-zinc-700">
             PDF Document
           </span>
         </div>
@@ -121,32 +121,32 @@ export const ExpressIngestForm: React.FC<ExpressIngestFormProps> = ({
         {/* Success View */}
         {result ? (
           <div className="space-y-6 py-4 animate-fade-in text-center">
-            <div className="w-16 h-16 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
-              <CheckCircle2 className="w-9 h-9" />
+            <div className="w-14 h-14 rounded-full bg-zinc-900 text-white flex items-center justify-center mx-auto shadow-xs">
+              <CheckCircle2 className="w-8 h-8 text-white" />
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-2xl font-bold tracking-tight text-on-surface">
+              <h3 className="text-2xl font-normal tracking-tight text-zinc-950">
                 Document Ingested & Published!
               </h3>
-              <p className="text-sm text-on-surface-variant max-w-md mx-auto">
+              <p className="text-sm text-zinc-500 max-w-md mx-auto">
                 The document has been chunked, embedded, and indexed with role-based access.
               </p>
             </div>
 
             {/* Metrics Grid */}
             <div className="grid grid-cols-3 gap-3 max-w-lg mx-auto text-left">
-              <div className="p-3.5 rounded-lg bg-surface-container-lowest border border-surface-container-high">
-                <span className="text-[11px] font-mono uppercase text-on-surface-variant block">Status</span>
-                <span className="text-sm font-bold text-emerald-700 capitalize">{result.status}</span>
+              <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200">
+                <span className="text-[11px] font-mono uppercase text-zinc-500 block">Status</span>
+                <span className="text-sm font-semibold text-zinc-900 capitalize">{result.status}</span>
               </div>
-              <div className="p-3.5 rounded-lg bg-surface-container-lowest border border-surface-container-high">
-                <span className="text-[11px] font-mono uppercase text-on-surface-variant block">Chunks Created</span>
-                <span className="text-sm font-bold text-on-surface tabular-nums">{result.chunks_created ?? 'N/A'}</span>
+              <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200">
+                <span className="text-[11px] font-mono uppercase text-zinc-500 block">Chunks Created</span>
+                <span className="text-sm font-semibold text-zinc-900 tabular-nums">{result.chunks_created ?? 'N/A'}</span>
               </div>
-              <div className="p-3.5 rounded-lg bg-surface-container-lowest border border-surface-container-high">
-                <span className="text-[11px] font-mono uppercase text-on-surface-variant block">Mode</span>
-                <span className="text-sm font-bold text-primary">Express</span>
+              <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200">
+                <span className="text-[11px] font-mono uppercase text-zinc-500 block">Mode</span>
+                <span className="text-sm font-semibold text-zinc-900">Express</span>
               </div>
             </div>
 

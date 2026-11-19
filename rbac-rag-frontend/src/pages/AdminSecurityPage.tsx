@@ -39,12 +39,12 @@ export const AdminSecurityPage: React.FC = () => {
   return (
     <div className="space-y-8 animate-in fade-in duration-300 pb-12">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-200">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-on-surface">
+          <h1 className="text-2xl font-normal tracking-tight text-zinc-950">
             Admin Security Command Center
           </h1>
-          <p className="text-xs text-on-surface-variant mt-0.5">
+          <p className="text-xs text-zinc-500 mt-0.5">
             Role revocation benchmarks, live entitlement switches, and query audit logs.
           </p>
         </div>
@@ -54,9 +54,9 @@ export const AdminSecurityPage: React.FC = () => {
           <button
             type="button"
             onClick={handleManualRefresh}
-            className="btn-secondary py-2 px-4 text-xs flex items-center gap-2 shadow-xs"
+            className="btn-secondary py-2 px-4 text-xs flex items-center gap-2"
           >
-            <RotateCw className="w-3.5 h-3.5 text-primary" />
+            <RotateCw className="w-3.5 h-3.5 text-zinc-600" />
             <span>Sync All Telemetry</span>
           </button>
         </div>
@@ -65,71 +65,71 @@ export const AdminSecurityPage: React.FC = () => {
       {/* KPI Security Telemetry Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1: Total Query Activity */}
-        <div className="card-level-2 p-5 bg-white border border-slate-200/80">
-          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+        <div className="card-level-2 p-5 bg-white border border-zinc-200">
+          <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
             Total Logged Queries
           </span>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-black tracking-tight text-slate-900 font-mono">
+            <span className="text-3xl font-medium tracking-tight text-zinc-950 font-mono">
               {metrics.total}
             </span>
-            <span className="text-xs font-medium text-slate-500">
+            <span className="text-xs font-normal text-zinc-500">
               Audit Events
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-slate-400 font-mono">
+          <div className="mt-2 text-[11px] text-zinc-400 font-mono">
             Table: public.audit_logs
           </div>
         </div>
 
         {/* Card 2: Blocked Jailbreaks & Attacks */}
-        <div className="card-level-2 p-5 bg-white border border-slate-200/80">
-          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+        <div className="card-level-2 p-5 bg-white border border-zinc-200">
+          <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
             Attacks Intercepted
           </span>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-black tracking-tight text-rose-600 font-mono">
+            <span className="text-3xl font-medium tracking-tight text-zinc-950 font-mono">
               {metrics.blocked}
             </span>
-            <span className="text-xs font-medium text-rose-700/80">
+            <span className="text-xs font-normal text-zinc-500">
               ({metrics.injections} Injections)
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-slate-400 font-mono">
+          <div className="mt-2 text-[11px] text-zinc-400 font-mono">
             Input Policy Filter
           </div>
         </div>
 
         {/* Card 3: Role-Scoped Cache Hit Rate */}
-        <div className="card-level-2 p-5 bg-white border border-slate-200/80">
-          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+        <div className="card-level-2 p-5 bg-white border border-zinc-200">
+          <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
             Cache Hit Rate
           </span>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-black tracking-tight text-purple-700 font-mono">
+            <span className="text-3xl font-medium tracking-tight text-zinc-950 font-mono">
               {metrics.cacheRate}%
             </span>
-            <span className="text-xs font-medium text-slate-500">
+            <span className="text-xs font-normal text-zinc-500">
               ({metrics.cacheHits} Hits)
             </span>
           </div>
-          <div className="mt-2 text-[11px] text-slate-400 font-mono">
+          <div className="mt-2 text-[11px] text-zinc-400 font-mono">
             SHA256:(Role+Query)
           </div>
         </div>
 
         {/* Card 4: Sub-Second Revocation Latency */}
-        <div className="card-level-2 p-5 bg-white border border-slate-200/80">
-          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+        <div className="card-level-2 p-5 bg-white border border-zinc-200">
+          <span className="text-[11px] font-medium text-zinc-500 uppercase tracking-wider block">
             Avg Pipeline Latency
           </span>
           <div className="mt-2 flex items-baseline gap-2">
-            <span className="text-3xl font-black tracking-tight text-emerald-700 font-mono">
+            <span className="text-3xl font-medium tracking-tight text-zinc-950 font-mono">
               {metrics.avgLatency}
             </span>
-            <span className="text-xs font-semibold text-slate-500">ms</span>
+            <span className="text-xs font-normal text-zinc-500">ms</span>
           </div>
-          <div className="mt-2 text-[11px] text-slate-400 font-mono">
+          <div className="mt-2 text-[11px] text-zinc-400 font-mono">
             Revocation Latency: &lt; 1 ms
           </div>
         </div>
@@ -137,7 +137,7 @@ export const AdminSecurityPage: React.FC = () => {
 
       {/* Component 1: Sub-Second Role Revocation Tester Panel */}
       <section className="space-y-3">
-        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
+        <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
           Live Permission Management & Sub-Second Revocation Benchmark
         </h2>
         <RoleRevocationPanel
@@ -147,7 +147,7 @@ export const AdminSecurityPage: React.FC = () => {
 
       {/* Component 2: Immutable Security Audit Log Table */}
       <section className="space-y-3">
-        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wider">
+        <h2 className="text-xs font-medium text-zinc-500 uppercase tracking-wider">
           Immutable Audit Trail & Intercepted Prompt Analysis
         </h2>
         <AuditLogTable

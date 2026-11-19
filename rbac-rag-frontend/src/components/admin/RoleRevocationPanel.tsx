@@ -251,20 +251,20 @@ export const RoleRevocationPanel: React.FC<RoleRevocationPanelProps> = ({
   return (
     <div
       className={clsx(
-        'bg-white rounded-xl border border-surface-container-high shadow-level-2 p-6 sm:p-8 space-y-6',
+        'bg-white rounded-2xl border border-zinc-200 shadow-xs p-6 sm:p-8 space-y-6',
         className
       )}
     >
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-surface-container-high">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-100">
         <div>
-          <div className="inline-flex items-center px-3 py-0.5 rounded-md bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-2">
-            <span>Sub-Second Role Invalidation</span>
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 text-[11px] font-medium tracking-wider uppercase mb-2">
+            <span>Sub-Second Invalidation</span>
           </div>
-          <h2 className="text-xl font-bold tracking-tight text-on-surface">
+          <h2 className="text-xl font-normal tracking-tight text-zinc-950">
             Live Role Revocation Command Center
           </h2>
-          <p className="text-xs text-on-surface-variant mt-0.5 max-w-2xl leading-relaxed">
+          <p className="text-xs text-zinc-500 mt-0.5 max-w-2xl leading-relaxed">
             Every request dynamically verifies role active-status in &lt;1ms. If an admin changes an employee's role, permissions update instantaneously.
           </p>
         </div>
@@ -286,7 +286,7 @@ export const RoleRevocationPanel: React.FC<RoleRevocationPanelProps> = ({
               type="button"
               disabled={isRunningProof}
               onClick={handleRunRevocationProof}
-              className="btn-primary text-xs px-5 py-2.5 flex items-center gap-2 shadow-sm"
+              className="btn-primary text-xs px-5 py-2.5 flex items-center gap-2"
             >
               {isRunningProof ? (
                 <>
@@ -305,7 +305,7 @@ export const RoleRevocationPanel: React.FC<RoleRevocationPanelProps> = ({
       </div>
 
       {proofError && (
-        <div className="p-3.5 rounded-lg bg-error-container/20 border border-error/30 text-error text-xs flex items-center gap-2">
+        <div className="p-3.5 rounded-xl bg-zinc-100 border border-zinc-300 text-zinc-900 text-xs flex items-center gap-2">
           <AlertTriangle className="w-4 h-4 flex-shrink-0" />
           <span>{proofError}</span>
         </div>
@@ -313,13 +313,12 @@ export const RoleRevocationPanel: React.FC<RoleRevocationPanelProps> = ({
 
       {/* Automated Live Benchmark Results Visual Timeline */}
       {proofResults && (
-        <div className="p-5 rounded-xl bg-surface-container-lowest border border-surface-container-high space-y-4 animate-fade-in">
+        <div className="p-5 rounded-2xl bg-zinc-50/60 border border-zinc-200 space-y-4 animate-fade-in">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-on-surface uppercase tracking-wider flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <span className="text-xs font-medium text-zinc-900 uppercase tracking-wider flex items-center gap-1.5">
               <span>Live Sub-Second Benchmark Execution Log</span>
             </span>
-            <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-md font-semibold">
+            <span className="text-[11px] font-mono text-zinc-800 bg-zinc-100 border border-zinc-200 px-2.5 py-0.5 rounded-full font-medium">
               Instantaneous Revocation Verified
             </span>
           </div>
@@ -328,18 +327,11 @@ export const RoleRevocationPanel: React.FC<RoleRevocationPanelProps> = ({
             {proofResults.map((st) => (
               <div
                 key={st.step}
-                className={clsx(
-                  'p-4 rounded-lg border bg-white space-y-2 shadow-xs transition-all',
-                  st.step === 'A'
-                    ? 'border-emerald-300'
-                    : st.step === 'B'
-                    ? 'border-purple-300'
-                    : 'border-red-300'
-                )}
+                className="p-4 rounded-xl border border-zinc-200 bg-white space-y-2 shadow-2xs transition-all"
               >
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-bold text-on-surface flex items-center gap-1.5">
-                    <span className="w-5 h-5 rounded-full bg-slate-900 text-white flex items-center justify-center text-[10px] font-mono">
+                  <span className="font-semibold text-zinc-900 flex items-center gap-1.5">
+                    <span className="w-5 h-5 rounded-full bg-zinc-900 text-white flex items-center justify-center text-[10px] font-mono">
                       {st.step}
                     </span>
                     <span>{st.title}</span>
@@ -350,7 +342,7 @@ export const RoleRevocationPanel: React.FC<RoleRevocationPanelProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2 pt-1">
-                  <RoleBadge role={st.roleUsed} size="xs" variant="solid" />
+                  <RoleBadge role={st.roleUsed} size="xs" variant="subtle" />
                   <span className="text-[11px] font-mono text-on-surface-variant">
                     {st.chunkCount} Chunks Retrieved
                   </span>

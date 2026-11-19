@@ -72,15 +72,15 @@ export const AdminIngestPage: React.FC = () => {
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-surface-container-high">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-zinc-200">
         <div>
-          <div className="inline-flex items-center px-3 py-0.5 rounded-md bg-slate-900 text-white text-xs font-bold uppercase tracking-wider mb-2">
-            <span>Administrator Security Portal</span>
+          <div className="inline-flex items-center px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 text-[11px] font-medium tracking-wider uppercase mb-2">
+            <span>Admin Portal</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-on-surface">
-            Document Ingestion & HITL Visual Security Map
+          <h1 className="text-2xl sm:text-3xl font-normal tracking-tight text-zinc-950">
+            Document Ingestion & Security Mapping
           </h1>
-          <p className="text-sm text-on-surface-variant mt-1 max-w-2xl">
+          <p className="text-sm text-zinc-500 mt-1 max-w-2xl">
             Triage enterprise documents, review sensitivity classifications, and inspect visual bounding box mappings.
           </p>
         </div>

@@ -2,7 +2,7 @@ import uuid
 import pytest
 from pydantic import ValidationError
 
-from backend.db.session import get_admin_cursor, init_db_schema
+from backend.db.session import get_admin_cursor, init_db_schema, _seed_demo_users
 from backend.models.auth_schemas import (
     AuthenticatedUser,
     RoleUpdateRequest,
@@ -69,40 +69,22 @@ def test_demo_personas_seeded_correctly(monkeypatch):
             assert row["is_active"] is True
 
 
+class _FakeCursor:
+    def __init__(self):
+        self.calls = []
+
+    def execute(self, *args, **kwargs):
+        self.calls.append(args)
+
+
 def test_demo_personas_not_seeded_when_disabled(monkeypatch):
-    """Verify no admin@company.com row is created when SEED_DEMO_USERS is false."""
+    """With SEED_DEMO_USERS=false, seeding must not run any SQL."""
     monkeypatch.setenv("SEED_DEMO_USERS", "false")
+    cursor = _FakeCursor()
 
-    with get_admin_cursor() as cur:
-        cur.execute("SELECT user_id FROM users WHERE email = 'admin@company.com';")
-        row = cur.fetchone()
-        admin_id = row["user_id"] if row else None
+    _seed_demo_users(cursor)
 
-        if admin_id:
-            cur.execute("UPDATE audit_logs SET user_id = NULL WHERE user_id = %s;", (admin_id,))
-            cur.execute("UPDATE documents SET uploaded_by = NULL WHERE uploaded_by = %s;", (admin_id,))
-            cur.execute("DELETE FROM users WHERE user_id = %s;", (admin_id,))
-
-    try:
-        init_db_schema()
-
-        with get_admin_cursor() as cur:
-            cur.execute("SELECT user_id FROM users WHERE email = 'admin@company.com';")
-            assert cur.fetchone() is None
-    finally:
-        # Re-seed demo users so downstream tests and demo logins succeed
-        monkeypatch.setenv("SEED_DEMO_USERS", "true")
-        monkeypatch.setenv("DEMO_PASSWORD", "DemoPass123!")
-        init_db_schema()
-
-        if admin_id:
-            with get_admin_cursor() as cur:
-                cur.execute("SELECT user_id FROM users WHERE email = 'admin@company.com';")
-                new_row = cur.fetchone()
-                if new_row:
-                    new_id = new_row["user_id"]
-                    cur.execute("UPDATE audit_logs SET user_id = %s WHERE user_id IS NULL;", (new_id,))
-                    cur.execute("UPDATE documents SET uploaded_by = %s WHERE uploaded_by IS NULL;", (new_id,))
+    assert cursor.calls == []
 
 
 def test_demo_seeding_requires_password_env(monkeypatch):

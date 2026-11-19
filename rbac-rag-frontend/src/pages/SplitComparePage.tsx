@@ -67,13 +67,13 @@ export const SplitComparePage: React.FC = () => {
     <div className="space-y-6 max-w-7xl mx-auto pb-12 animate-fade-in">
       {/* Page Title & Mission Header */}
       <div>
-        <div className="inline-flex items-center px-3 py-1 rounded-md bg-primary-container text-on-primary-container text-xs font-semibold tracking-wider uppercase mb-2">
-          <span>Interactive Portfolio & Live Interview Demo</span>
+        <div className="inline-flex items-center px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 text-zinc-700 text-[11px] font-medium tracking-wider uppercase mb-2">
+          <span>Interactive Comparison</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-on-surface">
+        <h1 className="text-2xl sm:text-3xl font-normal tracking-tight text-zinc-950">
           Split-Screen Live RBAC Comparison
         </h1>
-        <p className="text-sm text-on-surface-variant mt-1 max-w-3xl leading-relaxed">
+        <p className="text-sm text-zinc-500 mt-1 max-w-3xl leading-relaxed">
           Compare real-time query responses across two roles simultaneously to evaluate data isolation.
         </p>
       </div>
@@ -104,45 +104,45 @@ export const SplitComparePage: React.FC = () => {
 
       {/* Diff Highlight Callout Ribbon (Appears after execution) */}
       {leftResult && rightResult && (
-        <div className="p-4 sm:p-5 rounded-xl bg-white border border-surface-container-high shadow-level-2 animate-fade-in space-y-3">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-zinc-200 shadow-xs animate-fade-in space-y-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <h3 className="text-sm font-bold text-on-surface uppercase tracking-wider">
+              <h3 className="text-xs font-medium text-zinc-900 uppercase tracking-wider">
                 Differential Telemetry
               </h3>
             </div>
-            <span className="text-[11px] font-mono text-on-surface-variant">
+            <span className="text-[11px] font-mono text-zinc-500">
               Role Isolation Verified
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
             {/* Overlap */}
-            <div className="p-3 rounded-lg bg-surface-container-lowest border border-surface-container-high">
-              <span className="text-[10px] uppercase font-mono text-on-surface-variant block">
+            <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200">
+              <span className="text-[10px] uppercase font-mono text-zinc-500 block">
                 Public / Shared Chunks
               </span>
-              <span className="text-sm font-bold text-on-surface">
+              <span className="text-sm font-semibold text-zinc-900">
                 {commonChunkIds.length} Chunks Visible to Both
               </span>
             </div>
 
             {/* Left Exclusive */}
-            <div className="p-3 rounded-lg bg-surface-container-lowest border border-surface-container-high">
-              <span className="text-[10px] uppercase font-mono text-on-surface-variant block">
+            <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200">
+              <span className="text-[10px] uppercase font-mono text-zinc-500 block">
                 {leftPersona.name} ({leftPersona.role.toUpperCase()}) Only
               </span>
-              <span className="text-sm font-bold text-role-hr">
+              <span className="text-sm font-semibold text-zinc-900">
                 {restrictedLeftOnly.length} Restricted Chunks
               </span>
             </div>
 
             {/* Right Exclusive */}
-            <div className="p-3 rounded-lg bg-surface-container-lowest border border-surface-container-high">
-              <span className="text-[10px] uppercase font-mono text-on-surface-variant block">
+            <div className="p-3.5 rounded-xl bg-zinc-50 border border-zinc-200">
+              <span className="text-[10px] uppercase font-mono text-zinc-500 block">
                 {rightPersona.name} ({rightPersona.role.toUpperCase()}) Only
               </span>
-              <span className="text-sm font-bold text-role-engineering">
+              <span className="text-sm font-semibold text-zinc-900">
                 {restrictedRightOnly.length} Restricted Chunks
               </span>
             </div>
@@ -153,33 +153,30 @@ export const SplitComparePage: React.FC = () => {
       {/* Parallel Side-by-Side Comparison Columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
         {/* Left Column (e.g. Priya - HR) */}
-        <div className="bg-white rounded-xl border border-surface-container-high shadow-level-2 overflow-hidden flex flex-col space-y-4 p-5 sm:p-6">
+        <div className="bg-white rounded-2xl border border-zinc-200 shadow-xs overflow-hidden flex flex-col space-y-4 p-5 sm:p-6">
           {/* Persona Header Banner */}
-          <div className="flex items-center justify-between pb-3 border-b border-surface-container-high">
+          <div className="flex items-center justify-between pb-3 border-b border-zinc-200">
             <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-xs flex-shrink-0"
-                style={{ backgroundColor: leftPersona.colorHex }}
-              >
+              <div className="w-9 h-9 rounded-full bg-zinc-100 text-zinc-700 border border-zinc-200 flex items-center justify-center text-xs font-medium flex-shrink-0">
                 {leftPersona.avatarText}
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-bold text-on-surface">{leftPersona.name}</h3>
-                  <RoleBadge role={leftPersona.role} size="xs" variant="solid" />
+                  <h3 className="text-sm font-semibold text-zinc-900">{leftPersona.name}</h3>
+                  <RoleBadge role={leftPersona.role} size="xs" variant="subtle" />
                 </div>
-                <p className="text-[11px] text-on-surface-variant font-mono">
+                <p className="text-[11px] text-zinc-500 font-mono">
                   {leftPersona.department}
                 </p>
               </div>
             </div>
 
-            <span className="text-[11px] font-mono text-on-surface-variant">Left Pane</span>
+            <span className="text-[11px] font-mono text-zinc-400">Left Pane</span>
           </div>
 
           {/* Left Content Area */}
           {!leftResult ? (
-            <div className="p-12 text-center text-xs text-on-surface-variant space-y-2">
+            <div className="p-12 text-center text-xs text-zinc-500 space-y-2">
               <p>Click "Run Side-by-Side RBAC Comparison" above to query PostgreSQL as {leftPersona.name}.</p>
             </div>
           ) : (
@@ -195,7 +192,7 @@ export const SplitComparePage: React.FC = () => {
               />
 
               {/* Answer Text */}
-              <div className="p-4 rounded-xl bg-surface-container-lowest border border-surface-container-high text-xs text-on-surface leading-relaxed whitespace-pre-wrap font-sans">
+              <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 text-xs text-zinc-900 leading-relaxed whitespace-pre-wrap font-sans">
                 {leftResult.answer}
               </div>
 
@@ -226,33 +223,30 @@ export const SplitComparePage: React.FC = () => {
         </div>
 
         {/* Right Column (e.g. Arjun - Engineering) */}
-        <div className="bg-white rounded-xl border border-surface-container-high shadow-level-2 overflow-hidden flex flex-col space-y-4 p-5 sm:p-6">
+        <div className="bg-white rounded-2xl border border-zinc-200 shadow-xs overflow-hidden flex flex-col space-y-4 p-5 sm:p-6">
           {/* Persona Header Banner */}
-          <div className="flex items-center justify-between pb-3 border-b border-surface-container-high">
+          <div className="flex items-center justify-between pb-3 border-b border-zinc-200">
             <div className="flex items-center gap-3">
-              <div
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-xs flex-shrink-0"
-                style={{ backgroundColor: rightPersona.colorHex }}
-              >
+              <div className="w-9 h-9 rounded-full bg-zinc-100 text-zinc-700 border border-zinc-200 flex items-center justify-center text-xs font-medium flex-shrink-0">
                 {rightPersona.avatarText}
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="text-sm font-bold text-on-surface">{rightPersona.name}</h3>
-                  <RoleBadge role={rightPersona.role} size="xs" variant="solid" />
+                  <h3 className="text-sm font-semibold text-zinc-900">{rightPersona.name}</h3>
+                  <RoleBadge role={rightPersona.role} size="xs" variant="subtle" />
                 </div>
-                <p className="text-[11px] text-on-surface-variant font-mono">
+                <p className="text-[11px] text-zinc-500 font-mono">
                   {rightPersona.department}
                 </p>
               </div>
             </div>
 
-            <span className="text-[11px] font-mono text-on-surface-variant">Right Pane</span>
+            <span className="text-[11px] font-mono text-zinc-400">Right Pane</span>
           </div>
 
           {/* Right Content Area */}
           {!rightResult ? (
-            <div className="p-12 text-center text-xs text-on-surface-variant space-y-2">
+            <div className="p-12 text-center text-xs text-zinc-500 space-y-2">
               <p>Click "Run Side-by-Side RBAC Comparison" above to query PostgreSQL as {rightPersona.name}.</p>
             </div>
           ) : (
@@ -268,7 +262,7 @@ export const SplitComparePage: React.FC = () => {
               />
 
               {/* Answer Text */}
-              <div className="p-4 rounded-xl bg-surface-container-lowest border border-surface-container-high text-xs text-on-surface leading-relaxed whitespace-pre-wrap font-sans">
+              <div className="p-4 rounded-xl bg-zinc-50 border border-zinc-200 text-xs text-zinc-900 leading-relaxed whitespace-pre-wrap font-sans">
                 {rightResult.answer}
               </div>
 

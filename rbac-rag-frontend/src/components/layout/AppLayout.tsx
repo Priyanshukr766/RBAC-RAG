@@ -1,22 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import PersonaSwitcherBar from './PersonaSwitcherBar';
 import BackendHealthBadge from './BackendHealthBadge';
+import WelcomeNoteModal from '../common/WelcomeNoteModal';
 
 export const AppLayout: React.FC = () => {
+  const [isWelcomeModalOpen, setIsWelcomeModalOpen] = useState<boolean>(() => {
+    return !sessionStorage.getItem('has_seen_welcome_note');
+  });
+
+  const handleCloseWelcomeModal = () => {
+    sessionStorage.setItem('has_seen_welcome_note', 'true');
+    setIsWelcomeModalOpen(false);
+  };
+
+  const handleOpenWelcomeModal = () => {
+    setIsWelcomeModalOpen(true);
+  };
+
   return (
-    <div className="min-h-screen bg-surface-container-lowest flex flex-row overflow-hidden font-sans">
+    <div className="min-h-screen bg-white flex flex-row overflow-hidden font-sans">
       {/* Left Sidebar */}
       <Sidebar />
 
       {/* Main Right Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden bg-surface-container-lowest">
-        {/* Top Sticky Bar with Persona Switcher */}
-        <PersonaSwitcherBar />
+      <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden bg-white">
+        {/* Top Sticky Bar with Persona Switcher & Project Note */}
+        <PersonaSwitcherBar onOpenWelcomeNote={handleOpenWelcomeModal} />
 
         {/* Dynamic Workspace Container */}
-        <main className="flex-1 overflow-y-auto bg-surface-container-lowest px-4 sm:px-6 lg:px-8 py-6">
+        <main className="flex-1 overflow-y-auto bg-white px-4 sm:px-6 lg:px-8 py-6">
           <div className="max-w-7xl mx-auto space-y-6">
             {/* Health alert banner shown if offline */}
             <BackendHealthBadge compact={false} className="hidden" />
@@ -24,6 +38,12 @@ export const AppLayout: React.FC = () => {
           </div>
         </main>
       </div>
+
+      {/* Developer Welcome Note Modal */}
+      <WelcomeNoteModal
+        isOpen={isWelcomeModalOpen}
+        onClose={handleCloseWelcomeModal}
+      />
     </div>
   );
 };

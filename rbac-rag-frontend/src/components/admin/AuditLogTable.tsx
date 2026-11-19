@@ -196,17 +196,17 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
             type="button"
             onClick={() => setAutoRefresh(!autoRefresh)}
             className={clsx(
-              'px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition-all duration-200 border',
+              'px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 transition-all border',
               autoRefresh
-                ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100/70'
-                : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
+                ? 'bg-zinc-900 text-white border-zinc-900'
+                : 'bg-zinc-50 text-zinc-600 border-zinc-200 hover:bg-zinc-100'
             )}
             title="Auto-refresh poll every 10 seconds"
           >
             <Radio
               className={clsx(
                 'w-3.5 h-3.5',
-                autoRefresh ? 'text-emerald-600 animate-pulse' : 'text-slate-400'
+                autoRefresh ? 'text-white animate-pulse' : 'text-zinc-400'
               )}
             />
             <span>{autoRefresh ? 'Live Polling Active' : 'Polling Paused'}</span>
@@ -217,10 +217,10 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
             type="button"
             onClick={loadLogs}
             disabled={loading}
-            className="p-2 rounded-lg border border-slate-200 hover:bg-slate-100 text-slate-600 transition-colors duration-200 disabled:opacity-50"
+            className="p-2 rounded-full border border-zinc-200 hover:bg-zinc-100 text-zinc-600 transition-colors disabled:opacity-50"
             title="Refresh Audit Logs Now"
           >
-            <RefreshCw className={clsx('w-4 h-4', loading && 'animate-spin text-primary')} />
+            <RefreshCw className={clsx('w-4 h-4 text-zinc-600', loading && 'animate-spin text-zinc-950')} />
           </button>
         </div>
       </div>
@@ -233,17 +233,17 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
             type="button"
             onClick={() => setActiveTab('all')}
             className={clsx(
-              'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5',
+              'px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5',
               activeTab === 'all'
-                ? 'bg-primary text-white shadow-sm'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200/80'
+                ? 'bg-zinc-900 text-white shadow-xs'
+                : 'bg-zinc-100 text-zinc-600 hover:text-zinc-950 border border-zinc-200'
             )}
           >
             <span>All Queries</span>
             <span
               className={clsx(
-                'px-1.5 py-0.2 rounded-md text-[10px]',
-                activeTab === 'all' ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-700'
+                'px-1.5 py-0.2 rounded-full text-[10px]',
+                activeTab === 'all' ? 'bg-white/20 text-white' : 'bg-zinc-200/80 text-zinc-700'
               )}
             >
               {tabCounts.total}
@@ -254,17 +254,17 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
             type="button"
             onClick={() => setActiveTab('blocked')}
             className={clsx(
-              'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5',
+              'px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5',
               activeTab === 'blocked'
-                ? 'bg-rose-600 text-white shadow-sm'
-                : 'bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100/70'
+                ? 'bg-zinc-900 text-white shadow-xs'
+                : 'bg-zinc-100 text-zinc-600 hover:text-zinc-950 border border-zinc-200'
             )}
           >
             <span>Blocked Attacks</span>
             <span
               className={clsx(
-                'px-1.5 py-0.2 rounded-md text-[10px]',
-                activeTab === 'blocked' ? 'bg-white/20 text-white' : 'bg-rose-200/70 text-rose-800'
+                'px-1.5 py-0.2 rounded-full text-[10px]',
+                activeTab === 'blocked' ? 'bg-white/20 text-white' : 'bg-zinc-200/80 text-zinc-700'
               )}
             >
               {tabCounts.blocked}
@@ -275,19 +275,19 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
             type="button"
             onClick={() => setActiveTab('cache_hits')}
             className={clsx(
-              'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5',
+              'px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5',
               activeTab === 'cache_hits'
-                ? 'bg-purple-600 text-white shadow-sm'
-                : 'bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100/70'
+                ? 'bg-zinc-900 text-white shadow-xs'
+                : 'bg-zinc-100 text-zinc-600 hover:text-zinc-950 border border-zinc-200'
             )}
           >
             <span>Cache Hits</span>
             <span
               className={clsx(
-                'px-1.5 py-0.2 rounded-md text-[10px]',
+                'px-1.5 py-0.2 rounded-full text-[10px]',
                 activeTab === 'cache_hits'
                   ? 'bg-white/20 text-white'
-                  : 'bg-purple-200/70 text-purple-800'
+                  : 'bg-zinc-200/80 text-zinc-700'
               )}
             >
               {tabCounts.cacheHits}
@@ -298,19 +298,19 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
             type="button"
             onClick={() => setActiveTab('passed')}
             className={clsx(
-              'px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 flex items-center gap-1.5',
+              'px-3 py-1 rounded-full text-xs font-medium transition-all flex items-center gap-1.5',
               activeTab === 'passed'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100/70'
+                ? 'bg-zinc-900 text-white shadow-xs'
+                : 'bg-zinc-100 text-zinc-600 hover:text-zinc-950 border border-zinc-200'
             )}
           >
             <span>Passed</span>
             <span
               className={clsx(
-                'px-1.5 py-0.2 rounded-md text-[10px]',
+                'px-1.5 py-0.2 rounded-full text-[10px]',
                 activeTab === 'passed'
                   ? 'bg-white/20 text-white'
-                  : 'bg-emerald-200/70 text-emerald-800'
+                  : 'bg-zinc-200/80 text-zinc-700'
               )}
             >
               {tabCounts.passed}
@@ -342,15 +342,15 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
 
       {/* Error Banner */}
       {error && (
-        <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs flex items-center justify-between">
+        <div className="p-3 bg-zinc-100 border border-zinc-300 rounded-xl text-zinc-900 text-xs flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-rose-600 shrink-0" />
+            <span className="w-2 h-2 rounded-full bg-zinc-700 shrink-0" />
             <span>{error}</span>
           </div>
           <button
             type="button"
             onClick={loadLogs}
-            className="text-xs font-semibold text-rose-700 underline hover:no-underline ml-4"
+            className="text-xs font-medium text-zinc-900 underline hover:no-underline ml-4"
           >
             Retry
           </button>
@@ -358,9 +358,9 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
       )}
 
       {/* Audit Log Table */}
-      <div className="overflow-x-auto border border-slate-200 rounded-xl bg-white shadow-sm">
-        <table className="w-full text-left text-xs text-on-surface">
-          <thead className="bg-slate-50 border-b border-slate-200 font-semibold text-slate-600">
+      <div className="overflow-x-auto border border-zinc-200 rounded-2xl bg-white shadow-xs">
+        <table className="w-full text-left text-xs text-zinc-900">
+          <thead className="bg-zinc-50/80 border-b border-zinc-200 font-medium text-zinc-500">
             <tr>
               <th className="px-4 py-3 whitespace-nowrap">Timestamp</th>
               <th className="px-4 py-3 whitespace-nowrap">User & Role</th>
@@ -447,7 +447,7 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
                     {/* User & Role */}
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="flex items-center gap-1.5">
-                        <RoleBadge role={log.user_role_at_query} size="xs" variant="solid" />
+                        <RoleBadge role={log.user_role_at_query} size="xs" variant="subtle" />
                         <span
                           className="font-medium text-slate-800 truncate max-w-[130px]"
                           title={userIdentifier}
@@ -480,22 +480,22 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
                     {/* Guardrail Status */}
                     <td className="px-4 py-3 whitespace-nowrap">
                       {isPassed ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
+                          <span className="w-1.5 h-1.5 rounded-full bg-zinc-700" />
                           <span>Passed</span>
                         </span>
                       ) : isInjectionBlocked ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-rose-50 text-rose-700 border border-rose-200">
-                          <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-zinc-900 text-white border border-zinc-900">
+                          <span className="w-1.5 h-1.5 rounded-full bg-white" />
                           <span>Blocked: Injection</span>
                         </span>
                       ) : isOutOfScope ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-zinc-100 text-zinc-900 border border-zinc-300">
+                          <span className="w-1.5 h-1.5 rounded-full bg-zinc-600" />
                           <span>Blocked: Scope</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-zinc-100 text-zinc-700 border border-zinc-200">
                           {log.guardrail_status}
                         </span>
                       )}
@@ -504,11 +504,11 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
                     {/* Cache */}
                     <td className="px-4 py-3 whitespace-nowrap">
                       {log.cache_hit ? (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-purple-50 text-purple-700 border border-purple-200 shadow-xs">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-zinc-100 text-zinc-800 border border-zinc-200">
                           <span>HIT</span>
                         </span>
                       ) : (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-normal bg-zinc-50 text-zinc-500 border border-zinc-200">
                           <span>MISS</span>
                         </span>
                       )}
@@ -639,7 +639,7 @@ export const AuditLogTable: React.FC<AuditLogTableProps> = ({
                   <div className="text-[10px] font-semibold text-slate-500 uppercase tracking-wider mb-1">
                     Role
                   </div>
-                  <RoleBadge role={selectedLog.user_role_at_query} size="sm" variant="solid" />
+                  <RoleBadge role={selectedLog.user_role_at_query} size="sm" variant="subtle" />
                 </div>
 
                 <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">

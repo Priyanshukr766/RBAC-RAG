@@ -46,21 +46,21 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
     return (
       <div className="flex justify-end gap-3 max-w-3xl ml-auto animate-fade-in group">
         <div className="flex flex-col items-end max-w-xl">
-          {/* User message container */}
-          <div className="bg-primary text-white rounded-xl rounded-tr-xs px-5 py-3 shadow-sm text-sm leading-relaxed whitespace-pre-wrap selection:bg-white/30">
+          {/* User message container - Grok light neutral style */}
+          <div className="bg-zinc-100 text-zinc-900 border border-zinc-200/80 rounded-2xl rounded-tr-xs px-4 py-2.5 shadow-2xs text-sm leading-relaxed whitespace-pre-wrap">
             {message.text}
           </div>
 
           {/* User meta footer */}
-          <div className="flex items-center gap-2 mt-1.5 text-[11px] text-on-surface-variant font-mono">
+          <div className="flex items-center gap-2 mt-1.5 text-[11px] text-zinc-400 font-mono">
             <span>{formatTimestamp(message.timestamp)}</span>
             <span>•</span>
             <RoleBadge role={message.roleAtQuery} size="xs" variant="outline" className="text-[10px] py-0 px-2" />
           </div>
         </div>
 
-        <div className="w-8 h-8 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary flex-shrink-0 mt-0.5">
-          <User className="w-4 h-4" />
+        <div className="w-7 h-7 rounded-full bg-zinc-200 text-zinc-700 flex items-center justify-center text-xs font-medium flex-shrink-0 mt-0.5">
+          <User className="w-3.5 h-3.5 text-zinc-700" />
         </div>
       </div>
     );
@@ -74,16 +74,16 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   return (
     <div className="flex justify-start gap-3 max-w-4xl mr-auto animate-fade-in group">
       {/* Bot Avatar */}
-      <div className="w-8 h-8 rounded-full bg-slate-900 text-white flex items-center justify-center flex-shrink-0 mt-1 shadow-sm">
-        <Bot className="w-4 h-4 text-primary" />
+      <div className="w-7 h-7 rounded-full bg-zinc-900 text-white flex items-center justify-center flex-shrink-0 mt-1 shadow-2xs">
+        <Bot className="w-3.5 h-3.5 text-white" />
       </div>
 
       <div className="flex-1 space-y-3 min-w-0">
         {/* Card Bubble Container */}
-        <div className="bg-white rounded-xl border border-surface-container-high shadow-level-2 p-5 space-y-4">
+        <div className="bg-white rounded-2xl border border-zinc-200/90 shadow-xs p-5 space-y-4">
           {/* Query Telemetry Ribbon */}
           {meta && (
-            <div className="pb-3 border-b border-surface-container-high">
+            <div className="pb-3 border-b border-zinc-100">
               <QueryTelemetryRibbon
                 effectiveRole={meta.effective_role || message.roleAtQuery}
                 guardrailStatus={meta.guardrail_status}
@@ -96,18 +96,18 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           )}
 
           {/* Main Answer Text */}
-          <div className="text-sm text-on-surface leading-relaxed whitespace-pre-wrap font-sans selection:bg-primary-container selection:text-on-primary-container">
+          <div className="text-sm text-zinc-900 leading-relaxed whitespace-pre-wrap font-sans">
             {message.text}
           </div>
 
           {/* Citation Cards List */}
           {hasCitations && (
-            <div className="pt-3 border-t border-surface-container-high space-y-2.5">
-              <div className="flex items-center justify-between text-xs text-on-surface-variant">
-                <span className="font-bold uppercase tracking-wider text-[11px] text-on-surface">
+            <div className="pt-3 border-t border-zinc-100 space-y-2.5">
+              <div className="flex items-center justify-between text-xs text-zinc-500">
+                <span className="font-medium uppercase tracking-wider text-[11px] text-zinc-900">
                   Verified Citations ({citations.length} Grounded Chunks)
                 </span>
-                <span className="text-[11px] font-mono text-emerald-700">
+                <span className="text-[11px] font-mono text-zinc-500">
                   Verified Sources
                 </span>
               </div>
@@ -125,19 +125,19 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           )}
 
           {/* Assistant Action Strip */}
-          <div className="flex items-center justify-between pt-2 text-[11px] text-on-surface-variant">
+          <div className="flex items-center justify-between pt-2 text-[11px] text-zinc-400">
             <span className="font-mono">{formatTimestamp(message.timestamp)}</span>
 
             <button
               type="button"
               onClick={handleCopyText}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md hover:bg-surface-container-low text-on-surface-variant hover:text-on-surface transition-colors"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full hover:bg-zinc-100 text-zinc-500 hover:text-zinc-900 transition-colors"
               title="Copy answer to clipboard"
             >
               {copied ? (
                 <>
-                  <Check className="w-3 h-3 text-emerald-600" />
-                  <span className="text-emerald-700 font-medium">Copied!</span>
+                  <Check className="w-3 h-3 text-zinc-900" />
+                  <span className="text-zinc-900 font-medium">Copied!</span>
                 </>
               ) : (
                 <>
