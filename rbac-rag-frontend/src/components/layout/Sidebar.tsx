@@ -68,9 +68,9 @@ export const Sidebar: React.FC = () => {
             <div className="text-sm font-semibold tracking-tight text-zinc-950 truncate">
               RBAC RAG
             </div>
-            <div className="text-[11px] text-zinc-500 font-normal truncate">
+            {/* <div className="text-[11px] text-zinc-500 font-normal truncate">
               Enterprise Search
-            </div>
+            </div> */}
           </div>
         </div>
 

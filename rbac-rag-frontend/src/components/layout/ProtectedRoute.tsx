@@ -68,11 +68,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
             </div>
 
             {/* Clean inline metadata (no box) */}
-            <div className="text-xs text-zinc-400 font-mono mb-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+            {/* <div className="text-xs text-zinc-400 font-mono mb-8 flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
               <span>{location.pathname}</span>
               <span>•</span>
               <span>{user.email}</span>
-            </div>
+            </div> */}
 
             {/* Grok-style Pill Action Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full">

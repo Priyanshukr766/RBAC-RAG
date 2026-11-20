@@ -75,7 +75,7 @@ export const WelcomeNoteModal: React.FC<WelcomeNoteModalProps> = ({ isOpen, onCl
             </h3>
             <div className="space-y-1.5 pl-3.5 border-l-2 border-zinc-200">
               <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
-                <span className="font-semibold text-zinc-950">Problem:</span> A single company handbook might have public holidays on page 1, but executive salaries or private roadmap notes on page 4. Treating whole documents with a single permission level leaks private sections.
+                <span className="font-semibold text-zinc-950">Problem:</span> A single company handbook might have public holidays on page 1, but budget allocations or private roadmap notes on page 4. Treating whole documents with a single permission level leaks private sections.
               </p>
               <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
                 <span className="font-semibold text-zinc-950">My Approach:</span> I built a human-in-the-loop review tool. The system auto-tags sections with colored bounding boxes on the PDF, allowing an admin to visually inspect and adjust permissions for each section before chunks are embedded.
